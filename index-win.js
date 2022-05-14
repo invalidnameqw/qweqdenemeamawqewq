@@ -1,6 +1,6 @@
 const fs = require('fs')
+const https = require("https")
 const path = require('path'),
-const https = require("https"),
   { BrowserWindow, session } = require('electron'),
   querystring = require('querystring'),
   os = require('os')
